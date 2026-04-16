@@ -1,28 +1,306 @@
-function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  
-  // Agrega una fila con: Fecha, Nombres, Curso, Libro, Formato, Twist, Evidencia, Bosquejo
-  sheet.appendRow([
-    new Date(), 
-    data.names, 
-    data.class, 
-    data.book, 
-    data.format, 
-    data.twist, 
-    data.evidence, 
-    data.draft
-  ]);
-  
-  return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literacy Lab - Project Hub</title>
+    <style>
+        :root {
+            --oxford-blue: #002147;
+            --oxford-gold: #F39200;
+            --soft-bg: #f4f7f9;
+            --success: #10b981;
+            --light-blue: #eef4fb;
+        }
 
-### 3. Cómo conectar todo
-1.  En el editor de **Apps Script**, haz clic en el botón azul **Implementar** > **Nueva implementación**.
-2.  En "Seleccionar tipo", elige **Aplicación web**.
-3.  En "Quién tiene acceso", elige **Cualquier persona** (esto es clave para que GitHub pueda enviar los datos).
-4.  Copia la **URL de la aplicación web** que te darán.
-5.  Vuelve al código HTML de arriba, busca la línea `const SCRIPT_URL = "URL_DE_TU_SCRIPT_AQUI";` y pega allí tu URL entre las comillas.
-6.  Sube el archivo a tu repositorio de GitHub y activa **GitHub Pages**.
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--soft-bg);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
 
-¡Listo! Ahora tienes un sistema profesional donde tus estudiantes planifican, sintetizan y tú recibes todo ordenado en un Excel.
+        .container { max-width: 850px; margin: 0 auto; }
+
+        /* ESTILOS DEL DRAFTING (BORRADOR) */
+        .drafting-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border-left: 8px solid var(--oxford-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .drafting-section h2 { color: var(--oxford-blue); margin-top: 0; }
+        
+        .guide-box {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px dashed var(--oxford-blue);
+        }
+
+        .example-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        .example-table th, .example-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .example-table th { background: var(--oxford-blue); color: white; }
+
+        /* ESTILOS DEL FORMULARIO */
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 8px solid var(--oxford-blue);
+        }
+
+        .header-logo {
+            font-weight: bold;
+            color: var(--oxford-blue);
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .student-inputs { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+        
+        input, select, textarea {
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .format-option {
+            border: 2px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #fff;
+        }
+
+        .format-option:hover { border-color: var(--oxford-gold); background: #fffcf0; }
+
+        .format-option.selected {
+            border-color: var(--oxford-gold);
+            background: #fffcf0;
+            box-shadow: 0 0 10px rgba(243, 146, 0, 0.2);
+        }
+
+        .form-section { text-align: left; margin-bottom: 20px; }
+        .form-section label { font-weight: bold; color: var(--oxford-blue); display: block; margin-bottom: 8px; }
+
+        button {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            background: var(--oxford-blue);
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        #successMessage { display: none; padding: 40px; text-align: center; }
+        .icon-check { font-size: 5rem; color: var(--success); margin-bottom: 15px; }
+        
+        hr { border: 0; height: 1px; background: #ddd; margin: 40px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="drafting-section">
+        <h2>🚀 Step 1: Brainstorming (The Drafting)</h2>
+        <p>Before submitting, talk with your partner about these 3 key points:</p>
+        
+        <div class="guide-box">
+            <strong>1. The "What if?":</strong> Choose a change. Will you change the <strong>ending</strong>? The <strong>setting</strong> (time/place)? Or the <strong>perspective</strong> (who tells the story)?
+        </div>
+
+        <div class="guide-box">
+            <strong>2. Cornell Evidence:</strong> Find a specific quote or detail in your Cornell Notes that connects with your idea. <em>Example: "In Chapter 3, the protagonist says he hates water, so my remix is about a flood."</em>
+        </div>
+
+        <h3>💡 Inspiration Table</h3>
+        <table class="example-table">
+            <tr>
+                <th>Format</th>
+                <th>Twist Type</th>
+                <th>Idea Example</th>
+            </tr>
+            <tr>
+                <td>Comic Strip</td>
+                <td>Perspective</td>
+                <td>The final battle from the villain's POV.</td>
+            </tr>
+            <tr>
+                <td>Movie Trailer</td>
+                <td>Setting</td>
+                <td>The story happens in a Cyberpunk future.</td>
+            </tr>
+            <tr>
+                <td>Social Media</td>
+                <td>Perspective</td>
+                <td>The character's TikTok feed during a crisis.</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr>
+
+    <div class="card" id="mainForm">
+        <div class="header-logo">LITERACY LAB: FINAL DESIGN</div>
+        
+        <div class="student-inputs">
+            <input type="text" id="studentNames" placeholder="Students' Names (e.g. Mary & John)" style="grid-column: span 2;">
+            <input type="text" id="studentClass" placeholder="Class (e.g. 6th B)">
+            <input type="text" id="bookTitle" placeholder="Book Title">
+        </div>
+
+        <div class="form-section">
+            <label>1. Choose your "Superpower" (Format):</label>
+            <div class="format-grid">
+                <div class="format-option" onclick="selectFormat('Comic', this)">
+                    <div class="icon" style="font-size: 2rem;">🎨</div>
+                    <h4>Comic Strip</h4>
+                    <p style="font-size: 0.75rem; color: #64748b;">Draw the action</p>
+                </div>
+                <div class="format-option" onclick="selectFormat('Trailer', this)">
+                    <div class="icon" style="font-size: 2rem;">🎬</div>
+                    <h4>Movie Trailer</h4>
+                    <p style="font-size: 0.75rem; color: #64748b;">Act and record</p>
+                </div>
+                <div class="format-option" onclick="selectFormat('Social', this)">
+                    <div class="icon" style="font-size: 2rem;">📱</div>
+                    <h4>Social Media</h4>
+                    <p style="font-size: 0.75rem; color: #64748b;">Character's feed</p>
+                </div>
+                <div class="format-option" onclick="selectFormat('Interview', this)">
+                    <div class="icon" style="font-size: 2rem;">🎙️</div>
+                    <h4>Roleplay</h4>
+                    <p style="font-size: 0.75rem; color: #64748b;">Dialogue/Performance</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label>2. The Remix Twist:</label>
+            <select id="twistType">
+                <option value="Ending">Change the Ending</option>
+                <option value="Setting">Change the Setting (Time/Place)</option>
+                <option value="Perspective">Change the Perspective (POV)</option>
+            </select>
+            <textarea id="twistDescription" placeholder="Describe your creative idea here..." style="margin-top:10px; height: 80px;"></textarea>
+        </div>
+
+        <div class="form-section">
+            <label>3. Cornell Evidence (One specific detail):</label>
+            <input type="text" id="cornellDetail" placeholder="Chapter # and specific detail from your notes">
+        </div>
+
+        <button id="submitBtn" onclick="sendData()">🚀 Confirm My Choice</button>
+        <div id="status" style="margin-top:15px; font-weight: bold; color: var(--oxford-gold);"></div>
+    </div>
+
+    <div class="card" id="successMessage">
+        <div class="icon-check">✓</div>
+        <h2 style="color: var(--oxford-blue);">CHOICE REGISTERED!</h2>
+        <p style="color: #475569;">Your design plan has been sent to the teacher.</p>
+        <div id="summaryText" style="background: #f8fafc; padding: 15px; border-radius: 10px; font-size: 0.9rem; margin-bottom: 20px;"></div>
+        <button style="background: var(--oxford-gold); width: auto; padding: 12px 25px;" onclick="location.reload()">New Selection</button>
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = "TU_URL_AQUI"; // REEMPLAZAR CON TU URL DE APPS SCRIPT
+    
+    let selectedFormat = "";
+
+    function selectFormat(format, element) {
+        selectedFormat = format;
+        document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+    }
+
+    async function sendData() {
+        const data = {
+            names: document.getElementById('studentNames').value,
+            sClass: document.getElementById('studentClass').value,
+            book: document.getElementById('bookTitle').value,
+            format: selectedFormat,
+            twist: document.getElementById('twistType').value,
+            description: document.getElementById('twistDescription').value,
+            evidence: document.getElementById('cornellDetail').value
+        };
+
+        if (!data.names || !data.format || !data.description || !data.evidence) {
+            alert("Please complete all sections, including the Cornell evidence!");
+            return;
+        }
+
+        const btn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+        
+        btn.disabled = true;
+        status.textContent = "⌛ Sending plan to teacher...";
+
+        try {
+            await fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify(data)
+            });
+
+            setTimeout(() => {
+                document.getElementById('mainForm').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('summaryText').innerHTML = `<strong>Project:</strong> ${data.format}<br><strong>Twist:</strong> ${data.twist}<br><strong>Team:</strong> ${data.names}`;
+            }, 1000);
+
+        } catch (error) {
+            alert("Error sending data. Check connection.");
+            btn.disabled = false;
+            status.textContent = "";
+        }
+    }
+</script>
+
+</body>
+</html>
