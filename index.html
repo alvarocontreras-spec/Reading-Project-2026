@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Literacy Lab - Detailed Project Drafting</title>
+    <title>Literacy Lab - Plan de Producción Final</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -11,7 +11,6 @@
             --soft-bg: #f4f7f9;
             --success: #10b981;
             --white: #ffffff;
-            --border: #e2e8f0;
         }
 
         body {
@@ -35,91 +34,99 @@
         h2, h3 { color: var(--oxford-blue); margin-top: 0; text-align: center; }
         .subtitle { text-align: center; color: #64748b; margin-top: -10px; margin-bottom: 30px; font-size: 0.95rem; }
 
-        /* INPUT GRIDS */
-        .grid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .full-width { grid-column: 1 / -1; }
-
-        label { font-weight: bold; color: var(--oxford-blue); display: block; margin-bottom: 8px; font-size: 0.9rem; }
-
-        input, textarea, select {
-            padding: 14px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            font-size: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-            transition: all 0.3s;
-        }
-
-        input:focus, textarea:focus { border-color: var(--oxford-gold); outline: none; background: #fffdfa; }
-
-        /* PRODUCT SELECTION */
-        .format-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0 30px 0;
-        }
-
-        .format-option {
-            border: 2px solid var(--border);
-            padding: 20px;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            background: var(--white);
-            text-align: center;
-        }
-
-        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-2px); }
-
-        .format-option.selected {
-            border-color: var(--oxford-gold);
-            background: var(--oxford-gold);
-            color: white;
-            box-shadow: 0 8px 20px rgba(243, 146, 0, 0.3);
-        }
-
-        .format-option.selected h4, .format-option.selected p { color: white; }
-        .format-option .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
-        .format-option h4 { margin: 5px 0; font-size: 1.1rem; }
-        .format-option p { font-size: 0.75rem; color: #64748b; }
-
-        /* SECTION STYLING */
-        .drafting-step {
+        /* SECCIONES DEL FORMULARIO */
+        .step-box {
             background: #f8fafc;
             padding: 25px;
             border-radius: 16px;
             margin-bottom: 25px;
-            border-left: 5px solid #cbd5e1;
+            border: 1px solid #e2e8f0;
         }
 
-        /* BUTTONS */
-        .btn-main {
-            padding: 20px;
-            border-radius: 14px;
+        .step-title { 
+            color: var(--oxford-blue); 
+            font-weight: bold; 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center;
+            border-bottom: 2px solid var(--oxford-gold);
+            padding-bottom: 5px;
+            width: fit-content;
+        }
+
+        label { font-weight: bold; color: var(--oxford-blue); display: block; margin: 15px 0 8px 0; font-size: 0.9rem; }
+
+        input, textarea, select {
+            padding: 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* PRODUCT SELECTION */
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .format-option {
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+            background: white;
+        }
+
+        .format-option:hover { border-color: var(--oxford-gold); }
+        .format-option.selected {
+            background: var(--oxford-gold);
+            color: white;
+            border-color: var(--oxford-gold);
+        }
+
+        /* STORYBOARD SYSTEM */
+        .storyboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .storyboard-panel {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px dashed var(--oxford-blue);
+        }
+
+        /* BOTONES */
+        button {
+            padding: 18px;
+            border-radius: 12px;
             border: none;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             cursor: pointer;
             width: 100%;
-            background: var(--oxford-blue);
-            color: white;
             transition: 0.3s;
         }
 
-        .btn-main:hover { background: #003366; transform: scale(1.01); }
-        .btn-confirm { background: var(--success); margin-top: 15px; }
-        .btn-back { background: #64748b; margin-top: 10px; font-size: 0.9rem; }
+        .btn-primary { background: var(--oxford-blue); color: white; }
+        .btn-confirm { background: var(--success); color: white; margin-top: 15px; }
+        .btn-back { background: #64748b; color: white; margin-top: 10px; }
 
-        /* SUMMARY REVIEW */
+        /* REVIEW SUMMARY */
         #reviewSummary { display: none; }
-        .summary-item { margin-bottom: 12px; padding: 12px; background: white; border-radius: 8px; border: 1px solid #e2e8f0; }
-        .summary-item strong { color: var(--oxford-blue); font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .summary-item { margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        .summary-item strong { display: block; font-size: 0.75rem; color: var(--oxford-gold); text-transform: uppercase; }
 
-        #successMessage { display: none; text-align: center; padding: 60px 20px; }
-
-        @media (max-width: 600px) { .grid-row { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .storyboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -127,85 +134,92 @@
 <div class="container">
     
     <div class="card" id="mainForm">
-        <h2>🛠️ Project Drafting Phase</h2>
-        <p class="subtitle">Think deep, plan well. Complete all details before submitting.</p>
+        <h2>📑 Plan de Producción: Creative Remix</h2>
+        <p class="subtitle">Utiliza tus notas Cornell para planificar la secuencia de tu proyecto.</p>
         
-        <div class="drafting-step">
-            <label>Team & Context</label>
-            <div class="grid-row">
-                <input type="text" id="studentNames" placeholder="Students' Full Names" class="full-width">
-                <input type="text" id="studentClass" placeholder="Class (e.g., 6th A)">
-                <input type="text" id="bookTitle" placeholder="Book Title">
+        <div class="step-box">
+            <div class="step-title">1. Identificación</div>
+            <input type="text" id="names" placeholder="Nombres de la pareja" style="margin-bottom: 10px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="class" placeholder="Curso (ej. 6°B)">
+                <input type="text" id="book" placeholder="Título del Libro">
             </div>
         </div>
 
-        <div class="form-section">
-            <label>1. Select your Remix Format:</label>
+        <div class="step-box">
+            <div class="step-title">2. Formato del Producto</div>
             <div class="format-grid">
-                <div class="format-option" onclick="selectFormat('Social Media Profile', 'Create a digital/poster profile with key event posts.', this)">
-                    <span class="icon">📱</span>
-                    <h4>Social Media</h4>
-                    <p>Instagram/TikTok Profile</p>
+                <div class="format-option" onclick="selectFormat('Social Media Profile', 'Perfil digital del personaje con posts clave.', this)">📱 Social Media</div>
+                <div class="format-option" onclick="selectFormat('Comic Strip', 'Historieta de 6-8 paneles con final alternativo.', this)">🎨 Comic Strip</div>
+                <div class="format-option" onclick="selectFormat('Book Trailer', 'Video de 1-2 min. Atmósfera y misterio.', this)">🎬 Book Trailer</div>
+                <div class="format-option" onclick="selectFormat('Roleplay/Podcast', 'Entrevista basada en preguntas Cornell.', this)">🎙️ Entrevista</div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">3. Análisis de Investigación</div>
+            <label>Evidencia Cornell (Cita o detalle específico del libro):</label>
+            <textarea id="evidence" placeholder="¿En qué evento o capítulo se basa tu cambio creativo?" style="height: 60px;"></textarea>
+            
+            <label>Análisis del Conflicto:</label>
+            <input type="text" id="conflict" placeholder="¿Qué tipo de conflicto abordas? (ej. Hombre vs Sociedad)">
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">4. Storyboard (Secuencia Narrativa)</div>
+            <p style="font-size: 0.85rem; color: #64748b;">Describe qué pasará en cada etapa de tu remix:</p>
+            <div class="storyboard-grid">
+                <div class="storyboard-panel">
+                    <label>INICIO</label>
+                    <textarea id="storyStart" placeholder="Escena 1 / Primer post / Panel 1" style="height: 80px; font-size: 0.85rem;"></textarea>
                 </div>
-                <div class="format-option" onclick="selectFormat('Alternative Ending Comic', 'Draw a 6-8 panel strip with a new resolution.', this)">
-                    <span class="icon">🎨</span>
-                    <h4>Comic Strip</h4>
-                    <p>6-8 Panels / New Ending</p>
+                <div class="storyboard-panel" style="border: 2px solid var(--oxford-gold);">
+                    <label>EL TWIST (Cambio)</label>
+                    <textarea id="storyMiddle" placeholder="¿Dónde cambia la historia original?" style="height: 80px; font-size: 0.85rem;"></textarea>
                 </div>
-                <div class="format-option" onclick="selectFormat('The Book Trailer', '1-2 min video selling the mystery/atmosphere.', this)">
-                    <span class="icon">🎬</span>
-                    <h4>Book Trailer</h4>
-                    <p>Video / No Spoilers</p>
-                </div>
-                <div class="format-option" onclick="selectFormat('Meeting the Character', 'Interview between a journalist and the character.', this)">
-                    <span class="icon">🎙️</span>
-                    <h4>Roleplay</h4>
-                    <p>Podcast or Performance</p>
+                <div class="storyboard-panel">
+                    <label>FINAL</label>
+                    <textarea id="storyEnd" placeholder="Nuevo desenlace / Impresión final" style="height: 80px; font-size: 0.85rem;"></textarea>
                 </div>
             </div>
         </div>
 
-        <div class="drafting-step">
-            <label>2. The "Original Conflict" Connection</label>
-            <textarea id="conflictDetail" placeholder="Which conflict from the book are you using as a base? (Man vs Man, Man vs Nature, etc.)" style="height: 80px; margin-bottom:15px;"></textarea>
+        <div class="step-box">
+            <div class="step-title">5. Producción</div>
+            <label>Atmósfera y Tono (¿Qué quieres que sienta la audiencia?):</label>
+            <input type="text" id="tone" placeholder="ej. Suspenso, Alegría, Tragedia...">
             
-            <label>3. Creative Remix Description</label>
-            <textarea id="twistDescription" placeholder="Step-by-step: What happens in your remix? Give us the 'Plot Twist'." style="height: 100px; margin-bottom:15px;"></textarea>
-            
-            <label>4. Resources & Materials</label>
-            <input type="text" id="tools" placeholder="What will you use? (Canva, CapCut, Paper, Costumes, etc.)" style="margin-bottom:15px;">
-
-            <label>5. Cornell Evidence (Quote/Detail)</label>
-            <input type="text" id="cornellDetail" placeholder="Write a specific detail or quote from your Cornell Notes">
+            <label>Herramientas y Recursos:</label>
+            <input type="text" id="tools" placeholder="ej. Canva, CapCut, Cartulina, Disfraces...">
         </div>
 
-        <button class="btn-main" onclick="showReview()">Review Project Summary →</button>
+        <button class="btn-primary" onclick="showReview()">Revisar Ficha de Producción →</button>
     </div>
 
     <div class="card" id="reviewSummary">
-        <h3>🔍 Final Review</h3>
-        <p class="subtitle">Check if your plan makes sense before sending it.</p>
+        <h3>🔍 Revisión de Ficha Técnica</h3>
+        <p class="subtitle">Asegúrense de que el Storyboard tenga sentido antes de enviar.</p>
         
-        <div id="summaryContent" style="background: #f1f5f9; padding: 20px; border-radius: 16px; margin-bottom: 20px;">
+        <div id="summaryContent" style="background: #f1f5f9; padding: 20px; border-radius: 15px; margin-bottom: 20px; text-align: left;">
             </div>
 
-        <button class="btn-main btn-confirm" id="sendBtn" onclick="sendData()">Confirm & Send to Teacher 🚀</button>
-        <button class="btn-main btn-back" onclick="hideReview()">I need to change something ✏️</button>
+        <button class="btn-confirm" id="sendBtn" onclick="sendData()">Confirmar y Enviar al Profesor 🚀</button>
+        <button class="btn-back" onclick="hideReview()">Corregir detalles ✏️</button>
         
         <div id="status" style="margin-top:15px; font-weight: bold; color: var(--oxford-gold); text-align: center;"></div>
     </div>
 
     <div class="card" id="successMessage">
-        <div style="font-size: 5rem;">✅</div>
-        <h2>Project Plan Sent!</h2>
-        <p>Your detailed drafting is now with your teacher. Get your materials ready!</p>
-        <button class="btn-main" style="background: var(--oxford-gold); width: auto; padding: 15px 40px;" onclick="location.reload()">Create New Plan</button>
+        <div style="font-size: 4rem;">✅</div>
+        <h2>¡Proyecto Registrado!</h2>
+        <p>Tu hoja de ruta ha sido enviada. ¡Es hora de empezar la producción!</p>
+        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Nuevo Plan</button>
     </div>
 
 </div>
 
 <script>
-    const SCRIPT_URL = "TU_URL_DE_GOOGLE_APPS_SCRIPT"; 
+    const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT"; 
     
     let selectedFormat = "";
     let formatDef = "";
@@ -219,29 +233,30 @@
 
     function showReview() {
         const fields = {
-            names: document.getElementById('studentNames').value,
-            sClass: document.getElementById('studentClass').value,
-            book: document.getElementById('bookTitle').value,
-            conflict: document.getElementById('conflictDetail').value,
-            desc: document.getElementById('twistDescription').value,
-            tools: document.getElementById('tools').value,
-            evidence: document.getElementById('cornellDetail').value
+            names: document.getElementById('names').value,
+            book: document.getElementById('book').value,
+            evidence: document.getElementById('evidence').value,
+            start: document.getElementById('storyStart').value,
+            middle: document.getElementById('storyMiddle').value,
+            end: document.getElementById('storyEnd').value
         };
 
-        if (!fields.names || !selectedFormat || !fields.desc || !fields.evidence || !fields.conflict) {
-            alert("⚠️ Please fill in all sections (Conflict, Description, Evidence, etc.)");
+        if (!fields.names || !selectedFormat || !fields.middle) {
+            alert("⚠️ Por favor, completa los nombres, selecciona un formato y detalla el Storyboard (especialmente el Twist).");
             return;
         }
 
         document.getElementById('summaryContent').innerHTML = `
-            <div class="summary-item"><strong>Team:</strong> ${fields.names} (${fields.sClass})</div>
-            <div class="summary-item"><strong>Book:</strong> ${fields.book}</div>
-            <div class="summary-item"><strong>Project Option:</strong> ${selectedFormat}</div>
-            <div class="summary-item"><strong>Task Reminder:</strong> ${formatDef}</div>
-            <div class="summary-item"><strong>Base Conflict:</strong> ${fields.conflict}</div>
-            <div class="summary-item"><strong>The Remix Plan:</strong> ${fields.desc}</div>
-            <div class="summary-item"><strong>Tools to Use:</strong> ${fields.tools}</div>
-            <div class="summary-item"><strong>Cornell Evidence:</strong> ${fields.evidence}</div>
+            <div class="summary-item"><strong>Pareja:</strong> ${fields.names}</div>
+            <div class="summary-item"><strong>Libro:</strong> ${fields.book}</div>
+            <div class="summary-item"><strong>Producto:</strong> ${selectedFormat} (${formatDef})</div>
+            <div class="summary-item"><strong>Anclaje Cornell:</strong> ${fields.evidence}</div>
+            <div style="margin-top:15px; background:white; padding:10px; border-radius:10px; border-left:4px solid var(--oxford-gold);">
+                <strong>STORYBOARD:</strong><br>
+                <small>Inicio:</small> ${fields.start}<br>
+                <small>El Twist:</small> <b>${fields.middle}</b><br>
+                <small>Final:</small> ${fields.end}
+            </div>
         `;
 
         document.getElementById('mainForm').style.display = 'none';
@@ -255,22 +270,24 @@
     }
 
     async function sendData() {
+        // Objeto con todos los campos para enviar al Google Sheet
         const data = {
-            names: document.getElementById('studentNames').value,
-            sClass: document.getElementById('studentClass').value,
-            book: document.getElementById('bookTitle').value,
+            names: document.getElementById('names').value,
+            sClass: document.getElementById('class').value,
+            book: document.getElementById('book').value,
             format: selectedFormat,
-            conflict: document.getElementById('conflictDetail').value,
-            description: document.getElementById('twistDescription').value,
-            tools: document.getElementById('tools').value,
-            evidence: document.getElementById('cornellDetail').value
+            evidence: document.getElementById('evidence').value,
+            conflict: document.getElementById('conflict').value,
+            story_start: document.getElementById('storyStart').value,
+            story_middle: document.getElementById('storyMiddle').value,
+            story_end: document.getElementById('storyEnd').value,
+            tone: document.getElementById('tone').value,
+            tools: document.getElementById('tools').value
         };
 
         const btn = document.getElementById('sendBtn');
-        const status = document.getElementById('status');
-        
         btn.disabled = true;
-        status.textContent = "⌛ Recording your detailed plan...";
+        document.getElementById('status').textContent = "⌛ Guardando tu plan de producción...";
 
         try {
             await fetch(SCRIPT_URL, {
@@ -284,11 +301,9 @@
                 document.getElementById('reviewSummary').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
             }, 1000);
-
-        } catch (error) {
-            alert("Error sending. Check connection.");
+        } catch (e) {
+            alert("Error al enviar. Revisa tu conexión.");
             btn.disabled = false;
-            status.textContent = "";
         }
     }
 </script>
