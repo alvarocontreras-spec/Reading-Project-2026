@@ -1,183 +1,297 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Energy Horizon 2026 | Global Transition Dashboard</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
+    <title>ORAL TASK II - CSI Assessment</title>
     <style>
+        :root {
+            --oxford-blue: #002147;
+            --oxford-gold: #F39200;
+            --soft-bg: #f4f7f9;
+            --success: #10b981;
+            --drive-blue: #4285F4;
+            --danger: #ef4444;
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--soft-bg);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .chart-container {
-            position: relative;
+
+        .container { max-width: 700px; width: 100%; }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 8px solid var(--oxford-blue);
+        }
+
+        .header-logo {
+            font-weight: bold;
+            color: var(--oxford-blue);
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .student-inputs { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 20px; 
+        }
+        
+        .full-width { grid-column: span 2; }
+
+        input {
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* CAJA DE PREPARACIÓN AL INICIO */
+        .prep-box {
+            background: #f0f4f8;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .prep-box h3 { margin-top: 0; color: var(--oxford-blue); font-size: 1rem; }
+        .prep-box ol { font-size: 0.85rem; color: #475569; padding-left: 20px; margin-bottom: 0; }
+
+        .question-display {
+            background: #fffcf0;
+            border: 2px solid var(--oxford-gold);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #qNumber { color: var(--oxford-gold); font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
+        #qText { font-size: 1.4rem; color: var(--oxford-blue); line-height: 1.4; margin: 0; }
+
+        .timer-box { font-size: 2.5rem; font-weight: bold; color: var(--danger); margin: 20px 0; display: none; }
+        .recording .timer-box { display: block; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        button {
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
             width: 100%;
-            max-width: 800px;
-            margin: auto;
-            height: 350px;
+            margin-bottom: 12px;
+            transition: 0.3s;
         }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .glass-card:hover {
-            transform: translateY(-5px);
-        }
-        .text-gradient {
-            background: linear-gradient(to right, #06b6d4, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+
+        .btn-start { background: var(--oxford-blue); color: white; }
+        .btn-next { background: var(--oxford-gold); color: white; display: none; }
+        .btn-finish { background: #1e293b; color: white; display: none; }
+        .btn-drive { background: var(--drive-blue); color: white; margin-top: 15px; }
+        .btn-retry { background: var(--danger); color: white; font-size: 0.9rem; }
+
+        #finalSuccessMessage { display: none; padding: 20px; text-align: center; }
+        .icon-check { font-size: 5rem; color: var(--success); margin-bottom: 15px; }
+
+        @media print { .no-print { display: none; } #reportArea { display: block !important; border: none; box-shadow: none; } }
     </style>
 </head>
-<body class="antialiased min-h-screen p-4 md:p-8">
+<body>
 
-    <header class="max-w-7xl mx-auto mb-12 text-center">
-        <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-tight uppercase text-gradient">Energy Horizon 2026</h1>
-        <p class="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-            Visualización de datos sobre la aceleración de la transición global hacia ecosistemas de energía renovable.
-        </p>
+<div class="container">
+    <div class="card no-print" id="setupUI">
+        <div class="header-logo">ORAL TASK II</div>
         
-        <div class="mt-8 flex flex-col md:flex-row justify-center items-center gap-6">
-            <div class="glass-card p-6 rounded-2xl shadow-2xl border-b-4 border-[#06b6d4] w-full md:w-64">
-                <h3 class="text-slate-400 font-bold uppercase tracking-widest text-xs">Inversión Global</h3>
-                <p class="text-4xl font-black text-[#06b6d4] mt-2">$2.8T</p>
+        <div class="student-inputs">
+            <input type="text" id="firstName" placeholder="First Name">
+            <input type="text" id="lastName" placeholder="Last Name">
+            <input type="text" id="sClass" class="full-width" placeholder="Class (e.g. 5th A)">
+        </div>
+
+        <div class="prep-box" id="prepBox">
+            <h3>📖 Preparation:</h3>
+            <p style="font-size: 0.8rem; margin-top: -10px;">Read the questions before starting the recording.</p>
+            <ol>
+                <li>What's your name and how old are you?</li>
+                <li>What time do you usually wake up?</li>
+                <li>What do you like to eat for lunch?</li>
+                <li>How do you go to school every day?</li>
+                <li>What do you like to do after school?</li>
+                <li>Who do you live with?</li>
+                <li>What is your favorite subject?</li>
+                <li>Do you have a pet? What is its name?</li>
+                <li>What do you usually do on Saturdays?</li>
+                <li>What's your favourite sport?</li>
+                <li>What time do you usually go to bed?</li>
+            </ol>
+        </div>
+
+        <div class="question-display" id="qDisplay" style="display: none;">
+            <div id="qNumber">RECORDING...</div>
+            <p id="qText"></p>
+        </div>
+
+        <div class="timer-box" id="timer">00:00</div>
+        
+        <button id="startBtn" class="btn-start" onclick="initTest()">🎙️ Start Assessment</button>
+        <button id="nextBtn" class="btn-next" onclick="nextQuestion()">Next Question ➡️</button>
+        <button id="finishBtn" class="btn-finish" onclick="stopAndFinish()">🏁 Finish & Review</button>
+    </div>
+
+    <div id="reportArea" class="card" style="display:none;">
+        <div id="submissionControls">
+            <h2 style="color: var(--oxford-blue); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px;">Evaluation Report</h2>
+            <p style="text-align: left;"><strong>Student:</strong> <span id="repName"></span></p>
+            <p style="text-align: left;"><strong>Class:</strong> <span id="repClass"></span></p>
+            
+            <div class="no-print" style="background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <p style="margin-top:0; color: var(--oxford-blue); font-weight: bold;">🎧 Step 1: Review your audio</p>
+                <audio id="finalAudio" controls style="width: 100%; margin-bottom: 10px;"></audio>
+                <button id="retryBtn" class="btn-retry" onclick="retryTest()">🔄 Delete & Record Again</button>
             </div>
-            <div class="glass-card p-6 rounded-2xl shadow-2xl border-b-4 border-[#ec4899] w-full md:w-64">
-                <h3 class="text-slate-400 font-bold uppercase tracking-widest text-xs">Offset de Carbono</h3>
-                <p class="text-4xl font-black text-[#ec4899] mt-2">14.2Gt</p>
-            </div>
-            <div class="glass-card p-6 rounded-2xl shadow-2xl border-b-4 border-[#eab308] w-full md:w-64">
-                <h3 class="text-slate-400 font-bold uppercase tracking-widest text-xs">Capacidad Red</h3>
-                <p class="text-4xl font-black text-[#eab308] mt-2">+45%</p>
+
+            <div class="no-print">
+                <button id="driveBtn" class="btn-drive" onclick="uploadToDrive()">Confirm & Send to Teacher</button>
+                <div id="status" style="font-weight: bold; margin-top: 10px;"></div>
             </div>
         </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div id="finalSuccessMessage">
+            <div class="icon-check">✓</div>
+            <h2 style="color: var(--oxford-blue); margin-bottom: 10px;">ORAL TASK II COMPLETED</h2>
+            <p style="font-size: 1.2rem; color: #475569;">Assessment sent successfully.</p>
+            <button style="background: #64748b; color:white; width: auto; padding: 12px 30px;" onclick="window.print()">🖨️ Save Report</button>
+        </div>
+    </div>
+</div>
 
-        <section class="glass-card rounded-2xl p-6 shadow-xl flex flex-col">
-            <h2 class="text-2xl font-bold mb-4 text-[#06b6d4]">Mix Energético Global 2026</h2>
-            <div class="chart-container">
-                <canvas id="energyMixChart"></canvas>
-            </div>
-        </section>
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzYJh8YRfdxdqwCo4cnU6hVUsWu4NnwJQtPV5yeVtUn-CCytM7uN8L8Ts78QLBKqqWPvA/exec";
+    
+    const questions = [
+        "What's your name and how old are you?",
+        "What time do you usually wake up?",
+        "What do you like to eat for lunch?",
+        "How do you go to school every day?",
+        "What do you like to do after school?",
+        "Who do you live with?",
+        "What is your favorite subject?",
+        "Do you have a pet? What is its name?",
+        "What do you usually do on Saturdays?",
+        "What's your favourite sport?",
+        "What time do you usually go to bed?"
+    ];
 
-        <section class="glass-card rounded-2xl p-6 shadow-xl flex flex-col">
-            <h2 class="text-2xl font-bold mb-4 text-[#ec4899]">Inversión Regional ($B)</h2>
-            <div class="chart-container">
-                <canvas id="investmentChart"></canvas>
-            </div>
-        </section>
+    let currentIdx = 0, mediaRecorder, chunks = [], timerInt, seconds = 0, audioBlob;
 
-        <section class="glass-card rounded-2xl p-6 shadow-xl flex flex-col lg:col-span-2">
-            <h2 class="text-2xl font-bold mb-4 text-[#eab308]">Solar PV: Evolución de Costo vs. Eficiencia</h2>
-            <div id="solarScatterPlot" class="w-full h-[400px]"></div>
-        </section>
+    async function initTest() {
+        if(!document.getElementById('firstName').value || !document.getElementById('lastName').value) {
+            return alert("Please enter your First and Last Name!");
+        }
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            chunks = [];
+            mediaRecorder.ondataavailable = e => chunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                audioBlob = new Blob(chunks, { type: 'audio/mpeg' });
+                document.getElementById('finalAudio').src = URL.createObjectURL(audioBlob);
+            };
+            mediaRecorder.start();
+            document.body.classList.add('recording');
+            document.getElementById('prepBox').style.display = 'none';
+            document.getElementById('qDisplay').style.display = 'flex';
+            
+            timerInt = setInterval(() => {
+                seconds++;
+                let m = Math.floor(seconds/60).toString().padStart(2,'0'), s = (seconds%60).toString().padStart(2,'0');
+                document.getElementById('timer').textContent = `${m}:${s}`;
+            }, 1000);
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+            nextQuestion();
+        } catch (err) { alert("Mic error: Please allow access to record."); }
+    }
 
-        <section class="glass-card rounded-2xl p-6 shadow-xl flex flex-col lg:col-span-2">
-            <h2 class="text-2xl font-bold mb-4 text-[#a855f7]">Líderes en Capacidad Eólica (GW)</h2>
-            <div class="h-[350px]">
-                <canvas id="windLeadersChart"></canvas>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="max-w-7xl mx-auto mt-12 mb-8 text-center border-t border-slate-700 pt-8">
-        <p class="text-slate-500 text-sm">Dashboard desarrollado con Chart.js y Plotly.js para GitHub Pages.</p>
-    </footer>
-
-    <script>
-        const palette = ['#06b6d4', '#ec4899', '#eab308', '#a855f7', '#22c55e'];
-
-        // 1. Gráfico Mix Energético
-        new Chart(document.getElementById('energyMixChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Solar PV', 'Eólica Onshore', 'Eólica Offshore', 'Hidro', 'Bio/Geotérmica'],
-                datasets: [{
-                    data: [38, 24, 18, 14, 6],
-                    backgroundColor: palette,
-                    borderWidth: 0
-                }]
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { color: '#fff' } } }
+    function nextQuestion() {
+        if(currentIdx < questions.length) {
+            document.getElementById('qNumber').textContent = `QUESTION ${currentIdx + 1} OF ${questions.length}`;
+            document.getElementById('qText').textContent = questions[currentIdx++];
+            if(currentIdx === questions.length) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('finishBtn').style.display = 'block';
             }
-        });
+        }
+    }
 
-        // 2. Gráfico Inversión
-        new Chart(document.getElementById('investmentChart'), {
-            type: 'bar',
-            data: {
-                labels: ['2022', '2023', '2024', '2025', '2026'],
-                datasets: [
-                    { label: 'Asia', data: [450, 520, 610, 750, 920], backgroundColor: '#06b6d4' },
-                    { label: 'EU', data: [380, 410, 480, 550, 630], backgroundColor: '#ec4899' }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { ticks: { color: '#cbd5e1' } },
-                    y: { ticks: { color: '#cbd5e1' } }
-                },
-                plugins: { legend: { labels: { color: '#fff' } } }
+    function stopAndFinish() {
+        mediaRecorder.stop();
+        clearInterval(timerInt);
+        document.getElementById('repName').textContent = `${document.getElementById('lastName').value}, ${document.getElementById('firstName').value}`;
+        document.getElementById('repClass').textContent = document.getElementById('sClass').value;
+        document.getElementById('setupUI').style.display = 'none';
+        document.getElementById('reportArea').style.display = 'block';
+        if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
+    }
+
+    function retryTest() {
+        if(confirm("Delete current recording and start again?")) {
+            location.reload();
+        }
+    }
+
+    async function uploadToDrive() {
+        const driveBtn = document.getElementById('driveBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        driveBtn.disabled = true;
+        retryBtn.style.display = 'none';
+        document.getElementById('status').textContent = "⏳ Sending to Drive...";
+        document.getElementById('status').style.color = "orange";
+
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = async () => {
+            const base64data = reader.result.split(',')[1];
+            try {
+                fetch(SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: JSON.stringify({
+                        base64: base64data,
+                        filename: `${document.getElementById('lastName').value}_${document.getElementById('firstName').value}_${document.getElementById('sClass').value}.mp3`
+                    })
+                });
+                setTimeout(() => {
+                    document.getElementById('submissionControls').style.display = 'none';
+                    document.getElementById('finalSuccessMessage').style.display = 'block';
+                }, 2000);
+            } catch (e) {
+                alert("Upload error. Please try again.");
+                driveBtn.disabled = false;
+                retryBtn.style.display = 'block';
             }
-        });
-
-        // 3. Plotly Scatter
-        const trace = {
-            x: [2.5, 1.1, 0.4, 0.12], 
-            y: [14, 17, 21, 28],
-            mode: 'markers+lines',
-            marker: { size: 12, color: '#eab308' },
-            type: 'scatter'
         };
-        Plotly.newPlot('solarScatterPlot', [trace], {
-            paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
-            font: { color: '#cbd5e1' },
-            margin: { t: 20, b: 40, l: 40, r: 20 },
-            xaxis: { title: 'Costo por Watt ($)' },
-            yaxis: { title: 'Eficiencia (%)' }
-        }, {responsive: true});
-
-        // 4. Líderes Eólicos
-        new Chart(document.getElementById('windLeadersChart'), {
-            type: 'bar',
-            data: {
-                labels: ['China', 'USA', 'Alemania', 'India', 'España'],
-                datasets: [{
-                    label: 'GW',
-                    data: [410, 165, 82, 55, 38],
-                    backgroundColor: palette
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { color: '#cbd5e1' } },
-                    y: { ticks: { color: '#cbd5e1' } }
-                }
-            }
-        });
-    </script>
+    }
+</script>
 </body>
 </html>
