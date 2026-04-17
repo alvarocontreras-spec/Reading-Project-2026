@@ -31,6 +31,19 @@
         .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 5px 15px rgba(243, 146, 0, 0.1); }
         .format-option h4 { margin: 10px 0 0 0; font-size: 0.9rem; color: var(--oxford-blue); }
 
+        /* FORMAT DESCRIPTION BOX */
+        #formatDescription {
+            display: none;
+            background: var(--oxford-blue);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 8px solid var(--oxford-gold);
+        }
+        #formatDescription h4 { margin: 0 0 10px 0; color: var(--oxford-gold); text-transform: uppercase; font-size: 0.9rem; }
+        #formatDescription p { margin: 5px 0; font-size: 0.9rem; line-height: 1.4; }
+
         /* DYNAMIC QUESTIONNAIRE */
         #dynamicGuide { display: none; }
         .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 6px solid var(--oxford-gold); }
@@ -68,7 +81,6 @@
     </div>
     
     <div style="margin-bottom: 25px;">
-        <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: bold; color: var(--oxford-blue);">Need a full dictionary?</p>
         <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:12px; border-radius:8px; font-weight:bold; font-size:0.85rem;">🌐 WordReference</a>
     </div>
 
@@ -77,20 +89,18 @@
         <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Happy / Sad</span> <span style="color:var(--oxford-gold);">Feliz / Triste</span></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>First / Then</span> <span style="color:var(--oxford-gold);">Primero / Luego</span></div>
         <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Finally</span> <span style="color:var(--oxford-gold);">Finalmente</span></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Problem</span> <span style="color:var(--oxford-gold);">Problema</span></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Ending</span> <span style="color:var(--oxford-gold);">Final</span></div>
     </div>
 </div>
 
 <div class="container">
     <div class="card" id="mainForm">
         <h2>🛠️ Production Script & Guide</h2>
-        <p class="subtitle">Step-by-step planning for your Creative Remix project.</p>
+        <p class="subtitle">Plan your project step-by-step.</p>
         
         <div class="step-box">
             <div class="step-title">1. Team Details</div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                <input type="text" id="names" placeholder="Full names of students">
+                <input type="text" id="names" placeholder="Names of students">
                 <input type="text" id="class" placeholder="Grade">
             </div>
             <input type="text" id="book" placeholder="Title of the Book" style="margin-top:10px;">
@@ -114,6 +124,12 @@
             </div>
         </div>
 
+        <div id="formatDescription">
+            <h4 id="descTitle">Project Info</h4>
+            <p id="descTask"></p>
+            <p id="descContent"></p>
+        </div>
+
         <div id="dynamicGuide">
             <div class="step-title">3. Production Questions</div>
             <div id="questionsContainer"></div>
@@ -121,8 +137,8 @@
 
         <div class="step-box">
             <div class="step-title">4. Original Idea (The Remix)</div>
-            <label>Explain your original change in 2–3 sentences:</label>
-            <textarea id="remixDetail" placeholder="Example: In my story, the character says 'no' and goes home..."></textarea>
+            <label>Explain your original change in simple English:</label>
+            <textarea id="remixDetail" placeholder="What is different in your version?"></textarea>
         </div>
 
         <button class="btn-primary" onclick="showReview()">Review My Script →</button>
@@ -130,22 +146,40 @@
 
     <div class="card" id="reviewSummary" style="display:none;">
         <h3>🔍 Consolidated Production Guide</h3>
-        <p class="subtitle">Check your answers before sending to the teacher.</p>
         <div id="summaryContent" style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin-bottom: 20px;"></div>
-        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Final Submission 🚀</button>
+        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Confirm and Send 🚀</button>
         <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Edit My Plan ✏️</button>
     </div>
 
     <div class="card" id="successMessage" style="display:none; text-align:center;">
         <div style="font-size: 5rem;">✅</div>
         <h2>Guide Sent!</h2>
-        <p>Your script and production guide have been saved successfully.</p>
+        <p>Your script has been saved. Good luck with your creation!</p>
         <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Start New Plan</button>
     </div>
 </div>
 
 <script>
     let currentSelection = "";
+
+    const formatInfo = {
+        'Social Media': {
+            task: "<b>The Task:</b> Create an Instagram or TikTok profile for the main character.",
+            content: "<b>Content:</b> Posts about key events and captions based on your Cornell summaries."
+        },
+        'Comic Strip': {
+            task: "<b>The Task:</b> Draw a 6-8 panel comic strip with a different ending for the story.",
+            content: "<b>Content:</b> Use the conflicts you identified to create a new, original resolution."
+        },
+        'Book Trailer': {
+            task: "<b>The Task:</b> Record a short video (1-2 min) to 'sell' the book to other students.",
+            content: "<b>Content:</b> Focus on the mystery and the atmosphere. No spoilers!"
+        },
+        'Interview': {
+            task: "<b>The Task:</b> One student is a journalist and the other is the main character.",
+            content: "<b>Content:</b> Record or perform an interview using the questions from your Cornell Sheets."
+        }
+    };
 
     const a2Guides = {
         'Social Media': [
@@ -185,6 +219,14 @@
         document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
 
+        // Update Format Description
+        const descBox = document.getElementById('formatDescription');
+        descBox.style.display = 'block';
+        document.getElementById('descTitle').innerText = format + " Instructions";
+        document.getElementById('descTask').innerHTML = formatInfo[format].task;
+        document.getElementById('descContent').innerHTML = formatInfo[format].content;
+
+        // Build Questions
         const guideDiv = document.getElementById('dynamicGuide');
         const container = document.getElementById('questionsContainer');
         guideDiv.style.display = 'block';
@@ -204,7 +246,7 @@
             });
             container.appendChild(section);
         });
-        window.scrollTo({ top: guideDiv.offsetTop - 20, behavior: 'smooth' });
+        window.scrollTo({ top: descBox.offsetTop - 20, behavior: 'smooth' });
     }
 
     function showReview() {
@@ -215,7 +257,7 @@
         let summaryHtml = `
             <div class="summary-card"><span class="summary-label">Format:</span><div class="summary-text">${currentSelection}</div></div>
             <div class="summary-card"><span class="summary-label">The Remix Idea:</span><div class="summary-text">${document.getElementById('remixDetail').value}</div></div>
-            <h4 style="margin:20px 0 10px 0; color:var(--oxford-blue);">PHASE ANSWERS:</h4>
+            <h4 style="margin:20px 0 10px 0; color:var(--oxford-blue);">PLANNING ANSWERS:</h4>
         `;
 
         const textareas = document.querySelectorAll('.guide-input');
