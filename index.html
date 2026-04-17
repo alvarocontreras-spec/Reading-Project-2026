@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Literacy Lab - Final Project (A2)</title>
+    <title>Literacy Lab - Final Project Production Guide (A2)</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -17,204 +17,216 @@
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; }
         .container { max-width: 900px; margin: 0 auto; }
 
-        .card { background: var(--white); padding: 35px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
+        .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
         h2, h3 { color: var(--oxford-blue); text-align: center; }
-        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; }
 
         .step-box { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 12px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 4px; width: fit-content; font-size: 1rem; }
+        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; text-transform: uppercase; font-size: 0.9rem; }
 
         /* FORMAT SELECTION */
-        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
-        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 12px; cursor: pointer; background: white; transition: 0.2s; text-align: center; }
-        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-2px); }
-        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 4px 12px rgba(243, 146, 0, 0.1); }
-        .format-option h4 { margin: 8px 0 0 0; font-size: 0.85rem; }
+        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; cursor: pointer; background: white; transition: 0.3s; text-align: center; }
+        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-3px); }
+        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 5px 15px rgba(243, 146, 0, 0.1); }
+        .format-option h4 { margin: 10px 0 0 0; font-size: 0.9rem; color: var(--oxford-blue); }
 
-        /* DINAMIC QUESTIONNAIRE */
+        /* DYNAMIC QUESTIONNAIRE */
         #dynamicGuide { display: none; }
-        .phase-container { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--oxford-gold); }
-        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 12px; display: flex; align-items: center; }
-        .phase-header span { background: var(--oxford-gold); color: white; padding: 1px 6px; border-radius: 3px; margin-right: 8px; }
+        .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 6px solid var(--oxford-gold); }
+        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.8rem; margin-bottom: 15px; display: flex; align-items: center; letter-spacing: 1px; }
+        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 10px; border-radius: 4px; margin-right: 12px; }
         
-        .q-group { margin-bottom: 12px; }
-        .q-group label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 4px; }
+        .q-item { margin-bottom: 15px; }
+        .q-item label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 6px; font-weight: 600; }
 
         /* INPUTS */
-        input, textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
-        textarea { min-height: 50px; }
-        input:focus, textarea:focus { border-color: var(--oxford-gold); outline: none; }
+        input, textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; transition: 0.2s; }
+        textarea { min-height: 60px; resize: vertical; }
+        input:focus, textarea:focus { border-color: var(--oxford-gold); outline: none; background: #fff; }
 
         /* DICTIONARY SIDEBAR */
         #dictionarySidebar { position: fixed; right: -320px; top: 0; width: 300px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 20px; overflow-y: auto; border-left: 5px solid var(--oxford-gold); }
         #dictionarySidebar.open { right: 0; }
-        .dic-toggle { position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.3rem; border: none; }
+        .dic-toggle { position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.5rem; border: none; }
         
-        button.btn-primary { background: var(--oxford-blue); color: white; padding: 15px; border-radius: 10px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 20px; }
 
-        .summary-block { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd; font-size: 0.9rem; }
-        .summary-header { color: var(--oxford-gold); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; }
+        .summary-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #ddd; }
+        .summary-label { color: var(--oxford-gold); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .summary-text { font-size: 0.95rem; color: #1e293b; }
     </style>
 </head>
 <body>
 
 <button class="dic-toggle" onclick="toggleDic()">📖</button>
+
 <div id="dictionarySidebar">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 style="margin:0; font-size:1.1rem;">Helper Tools</h3>
-        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">✕</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; font-size: 1.2rem;">A2 Resources</h3>
+        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold; font-size: 1.2rem;">✕</button>
     </div>
-    <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:10px; border-radius:8px; font-weight:bold; font-size:0.8rem; margin-bottom:20px;">🌐 Open WordReference</a>
     
-    <div style="font-size: 0.85rem;">
-        <div style="font-weight:bold; color:var(--oxford-blue); border-bottom:1px solid #eee; margin-bottom:8px;">EASY WORDS (A2)</div>
-        <div style="display:flex; justify-content:space-between;"><span>Happy</span> <span style="color:var(--oxford-gold);">Feliz</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>Sad</span> <span style="color:var(--oxford-gold);">Triste</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>Scared</span> <span style="color:var(--oxford-gold);">Asustado</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>Angry</span> <span style="color:var(--oxford-gold);">Enojado</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>First</span> <span style="color:var(--oxford-gold);">Primero</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>Then</span> <span style="color:var(--oxford-gold);">Luego</span></div>
-        <div style="display:flex; justify-content:space-between;"><span>Finally</span> <span style="color:var(--oxford-gold);">Finalmente</span></div>
+    <div style="margin-bottom: 25px;">
+        <p style="font-size: 0.8rem; margin-bottom: 10px; font-weight: bold; color: var(--oxford-blue);">Need a full dictionary?</p>
+        <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:12px; border-radius:8px; font-weight:bold; font-size:0.85rem;">🌐 WordReference</a>
+    </div>
+
+    <div style="font-size: 0.9rem;">
+        <div style="font-weight:bold; color:var(--oxford-blue); border-bottom:1px solid #eee; margin-bottom:10px; padding-bottom: 5px;">A2 VOCABULARY</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Happy / Sad</span> <span style="color:var(--oxford-gold);">Feliz / Triste</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>First / Then</span> <span style="color:var(--oxford-gold);">Primero / Luego</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Finally</span> <span style="color:var(--oxford-gold);">Finalmente</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Problem</span> <span style="color:var(--oxford-gold);">Problema</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>Ending</span> <span style="color:var(--oxford-gold);">Final</span></div>
     </div>
 </div>
 
 <div class="container">
     <div class="card" id="mainForm">
-        <h2>🚀 Final Project Planning (A2)</h2>
-        <p class="subtitle">Select your project and answer the simple questions.</p>
+        <h2>🛠️ Production Script & Guide</h2>
+        <p class="subtitle">Step-by-step planning for your Creative Remix project.</p>
         
         <div class="step-box">
-            <div class="step-title">1. Basic Info</div>
+            <div class="step-title">1. Team Details</div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                <input type="text" id="names" placeholder="Names (Student 1 & 2)">
-                <input type="text" id="class" placeholder="Grade/Class">
+                <input type="text" id="names" placeholder="Full names of students">
+                <input type="text" id="class" placeholder="Grade">
             </div>
-            <input type="text" id="book" placeholder="Book Title" style="margin-top:10px;">
+            <input type="text" id="book" placeholder="Title of the Book" style="margin-top:10px;">
         </div>
 
         <div class="step-box">
-            <div class="step-title">2. Choose your Project</div>
+            <div class="step-title">2. Select Project Format</div>
             <div class="format-grid">
-                <div class="format-option" onclick="generateSteps('Social Media', this)">
-                    <span>📱</span> <h4>Social Media</h4>
+                <div class="format-option" onclick="buildGuide('Social Media', this)">
+                    <span style="font-size: 1.5rem;">📱</span> <h4>Social Media Profile</h4>
                 </div>
-                <div class="format-option" onclick="generateSteps('Comic Strip', this)">
-                    <span>🎨</span> <h4>Comic Strip</h4>
+                <div class="format-option" onclick="buildGuide('Comic Strip', this)">
+                    <span style="font-size: 1.5rem;">🎨</span> <h4>Comic Strip</h4>
                 </div>
-                <div class="format-option" onclick="generateSteps('Book Trailer', this)">
-                    <span>🎬</span> <h4>Book Trailer</h4>
+                <div class="format-option" onclick="buildGuide('Book Trailer', this)">
+                    <span style="font-size: 1.5rem;">🎬</span> <h4>Book Trailer</h4>
                 </div>
-                <div class="format-option" onclick="generateSteps('Interview', this)">
-                    <span>🎙️</span> <h4>Interview</h4>
+                <div class="format-option" onclick="buildGuide('Interview', this)">
+                    <span style="font-size: 1.5rem;">🎙️</span> <h4>Interview</h4>
                 </div>
             </div>
         </div>
 
         <div id="dynamicGuide">
-            <div class="step-title">3. Your Simple Guide</div>
+            <div class="step-title">3. Production Questions</div>
             <div id="questionsContainer"></div>
         </div>
 
         <div class="step-box">
-            <div class="step-title">4. Extra Details</div>
-            <label>Why is your remix original? (Simple English):</label>
-            <textarea id="remixTwist" placeholder="Example: In my story, the character escapes to the forest..."></textarea>
+            <div class="step-title">4. Original Idea (The Remix)</div>
+            <label>Explain your original change in 2–3 sentences:</label>
+            <textarea id="remixDetail" placeholder="Example: In my story, the character says 'no' and goes home..."></textarea>
         </div>
 
-        <button class="btn-primary" onclick="showReview()">Review my Plan →</button>
+        <button class="btn-primary" onclick="showReview()">Review My Script →</button>
     </div>
 
     <div class="card" id="reviewSummary" style="display:none;">
-        <h3>🔍 My Project Plan</h3>
-        <div id="summaryContent" style="background: #f1f5f9; padding: 20px; border-radius: 12px; margin-bottom: 20px;"></div>
-        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Send to Teacher 🚀</button>
-        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
+        <h3>🔍 Consolidated Production Guide</h3>
+        <p class="subtitle">Check your answers before sending to the teacher.</p>
+        <div id="summaryContent" style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin-bottom: 20px;"></div>
+        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Final Submission 🚀</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Edit My Plan ✏️</button>
     </div>
 
     <div class="card" id="successMessage" style="display:none; text-align:center;">
-        <div style="font-size: 4rem;">✅</div>
-        <h2>Good Job!</h2>
-        <p>Your plan is ready. Use this guide to create your project.</p>
-        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Start New</button>
+        <div style="font-size: 5rem;">✅</div>
+        <h2>Guide Sent!</h2>
+        <p>Your script and production guide have been saved successfully.</p>
+        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Start New Plan</button>
     </div>
 </div>
 
 <script>
-    let currentFormat = "";
+    let currentSelection = "";
 
-    const projectData = {
+    const a2Guides = {
         'Social Media': [
-            { phase: "Understanding", questions: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
-            { phase: "Analysis", questions: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
-            { phase: "Planning", questions: ["What is your username?", "What is your bio? (2–3 sentences)", "What 3–4 events will you post?"] },
-            { phase: "Creation", questions: ["What picture will you use?", "What will you write in the caption? (2–3 sentences)", "What hashtags will you use? (#happy #scared)"] },
-            { phase: "Reflection", questions: ["Do your posts show the story?", "Do they show the character’s feelings?"] }
+            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
+            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
+            { h: "Planning", q: ["What is your username?", "What is your bio? (2–3 sentences)", "What 3–4 events will you post?"] },
+            { h: "Creation", q: ["What picture will you use?", "What is the caption? (2–3 sentences)", "What hashtags will you use? (#scared #happy)"] },
+            { h: "Reflection", q: ["Do your posts show the story?", "Do they show the character's feelings?"] }
         ],
         'Comic Strip': [
-            { phase: "Understanding", questions: ["What is the problem in the story?", "How does the story end?"] },
-            { phase: "Analysis", questions: ["Can the story end in a different way?", "What can change?"] },
-            { phase: "Planning", questions: ["What happens in picture 1?", "What happens in picture 2?", "What happens at the end?"] },
-            { phase: "Creation", questions: ["What do the characters say? (short sentences)", "How do they feel? (happy, scared, angry)"] },
-            { phase: "Reflection", questions: ["Is your ending clear?", "Is it different from the original story?"] }
+            { h: "Understanding", q: ["What is the problem in the story?", "How does the story end?"] },
+            { h: "Analysis", q: ["Can the story end in a different way?", "What can change?"] },
+            { h: "Planning", q: ["What happens in picture 1?", "What happens in picture 2?", "What happens at the end?"] },
+            { h: "Creation", q: ["What do the characters say? (short sentences)", "How do they feel? (happy, scared, angry)"] },
+            { h: "Reflection", q: ["Is your ending clear?", "Is it different from the original story?"] }
         ],
         'Book Trailer': [
-            { phase: "Understanding", questions: ["Who is the main character?", "Where is the story?", "What is the problem?"] },
-            { phase: "Analysis", questions: ["Is the story interesting? Why?", "Is it scary, funny, or sad?"] },
-            { phase: "Planning", questions: ["What will you show first?", "What will you say? (write 3–4 sentences)"] },
-            { phase: "Creation", questions: ["Can people understand your voice?", "Is your video short (1–2 min)?"] },
-            { phase: "Reflection", questions: ["Does your video make people want to read the book?", "Did you tell the ending? (No!)"] }
+            { h: "Understanding", q: ["Who is the main character?", "Where is the story?", "What is the problem?"] },
+            { h: "Analysis", q: ["Is the story interesting? Why?", "Is it scary, funny, or sad?"] },
+            { h: "Planning", q: ["What will you show first?", "What will you say? (write 3–4 sentences)"] },
+            { h: "Creation", q: ["Can people understand your voice?", "Is your video short (1–2 min)?"] },
+            { h: "Reflection", q: ["Does your trailer make people want to read?", "Did you tell the ending? (No spoilers!)"] }
         ],
         'Interview': [
-            { phase: "Understanding", questions: ["Who is the character?", "What happens to the character?"] },
-            { phase: "Analysis", questions: ["How does the character feel?", "What does the character think?"] },
-            { phase: "Planning", questions: ["What questions will you ask? (3–4 questions)", "What answers will you give? (short answers)"] },
-            { phase: "Creation", questions: ["Do you speak clearly?", "Do you use English all the time?"] },
-            { phase: "Reflection", questions: ["Is your interview easy to understand?", "Does the character sound real?"] }
+            { h: "Understanding", q: ["Who is the character?", "What happens to the character?"] },
+            { h: "Analysis", q: ["How does the character feel?", "What does the character think?"] },
+            { h: "Planning", q: ["What questions will you ask? (3–4 questions)", "What answers will you give? (short answers)"] },
+            { h: "Creation", q: ["Do you speak clearly?", "Do you use English all the time?"] },
+            { h: "Reflection", q: ["Is your interview easy to understand?", "Does the character sound real?"] }
         ]
     };
 
     function toggleDic() { document.getElementById('dictionarySidebar').classList.toggle('open'); }
 
-    function generateSteps(format, element) {
-        currentFormat = format;
+    function buildGuide(format, element) {
+        currentSelection = format;
         document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
-        
-        const guideArea = document.getElementById('dynamicGuide');
+
+        const guideDiv = document.getElementById('dynamicGuide');
         const container = document.getElementById('questionsContainer');
-        guideArea.style.display = 'block';
+        guideDiv.style.display = 'block';
         container.innerHTML = "";
 
-        projectData[format].forEach((p, pIndex) => {
-            let phaseDiv = document.createElement('div');
-            phaseDiv.className = "phase-container";
-            phaseDiv.innerHTML = `<div class="phase-header"><span>Step ${pIndex+1}</span> ${p.phase}</div>`;
+        a2Guides[format].forEach((phase, pIdx) => {
+            let section = document.createElement('div');
+            section.className = "phase-section";
+            section.innerHTML = `<div class="phase-header"><span>PHASE ${pIdx+1}</span> ${phase.h}</div>`;
             
-            p.questions.forEach((q, qIndex) => {
-                phaseDiv.innerHTML += `
-                    <div class="q-group">
+            phase.q.forEach((q, qIdx) => {
+                section.innerHTML += `
+                    <div class="q-item">
                         <label>${q}</label>
-                        <textarea class="dynamic-input"></textarea>
+                        <textarea class="guide-input"></textarea>
                     </div>`;
             });
-            container.appendChild(phaseDiv);
+            container.appendChild(section);
         });
-        window.scrollTo({ top: guideArea.offsetTop - 20, behavior: 'smooth' });
+        window.scrollTo({ top: guideDiv.offsetTop - 20, behavior: 'smooth' });
     }
 
     function showReview() {
-        if(!currentFormat || !document.getElementById('names').value) {
-            alert("Please write your names and select a project!"); return;
+        if(!currentSelection || !document.getElementById('names').value) {
+            alert("Please complete the basic information and choose a project!"); return;
         }
 
-        let summaryHtml = `<div class="summary-block"><span class="summary-header">Names:</span> ${document.getElementById('names').value}</div>
-                           <div class="summary-block"><span class="summary-header">Format:</span> ${currentFormat}</div>`;
+        let summaryHtml = `
+            <div class="summary-card"><span class="summary-label">Format:</span><div class="summary-text">${currentSelection}</div></div>
+            <div class="summary-card"><span class="summary-label">The Remix Idea:</span><div class="summary-text">${document.getElementById('remixDetail').value}</div></div>
+            <h4 style="margin:20px 0 10px 0; color:var(--oxford-blue);">PHASE ANSWERS:</h4>
+        `;
 
-        const inputs = document.querySelectorAll('.dynamic-input');
-        inputs.forEach(input => {
-            const question = input.previousElementSibling.innerText;
-            if(input.value) {
-                summaryHtml += `<div class="summary-block"><span class="summary-header">${question}</span>${input.value}</div>`;
+        const textareas = document.querySelectorAll('.guide-input');
+        textareas.forEach(ta => {
+            const questionText = ta.previousElementSibling.innerText;
+            if(ta.value) {
+                summaryHtml += `
+                    <div class="summary-card">
+                        <span class="summary-label">${questionText}</span>
+                        <div class="summary-text">${ta.value}</div>
+                    </div>`;
             }
         });
 
