@@ -73,7 +73,7 @@
         /* TOOLKIT CONTENT STYLING */
         .tool-section { margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
         .tool-label { font-size: 0.75rem; font-weight: 800; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
-        .phrase-item { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 5px; line-height: 1.4; }
+        .phrase-item { font-size: 0.82rem; color: #475569; display: block; margin-bottom: 4px; line-height: 1.4; }
 
         /* INPUTS & QUESTIONS */
         #dynamicGuide { display: none; margin-top: 25px; }
@@ -86,47 +86,48 @@
 
         button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
         
-        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; }
+        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; border-left: 6px solid var(--oxford-gold); }
     </style>
 </head>
 <body>
 
-<button class="toolkit-toggle" onclick="toggleToolkit()" title="Open Language Toolkit">🧰</button>
+<button class="toolkit-toggle" onclick="toggleToolkit()">🧰</button>
 
 <div class="toolkit-sidebar" id="toolkitSidebar">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-        <h3 style="margin:0; font-size: 1.2rem;">Language Toolkit</h3>
+        <h3 style="margin:0; font-size: 1.1rem;">🧰 Language Toolkit A2</h3>
         <button onclick="toggleToolkit()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.5rem;">✕</button>
     </div>
 
     <div class="tool-section">
-        <span class="tool-label">Narrating (Sequencers)</span>
-        <div class="phrase-item">• First, ... / Then, ...</div>
-        <div class="phrase-item">• After that, ... / Finally, ...</div>
+        <span class="tool-label">1. Sequencing (Story)</span>
+        <div class="phrase-item">"First, ... / Then, ... / Finally, ..."</div>
+        <div class="phrase-item">"One day, ... / At the end, ..."</div>
     </div>
 
     <div class="tool-section">
-        <span class="tool-label">Describing Character</span>
-        <div class="phrase-item">• He/She is (brave, kind, scared)</div>
-        <div class="phrase-item">• I think he/she is... because...</div>
+        <span class="tool-label">2. Character description</span>
+        <div class="phrase-item">"He/She is (brave, kind, scared)"</div>
+        <div class="phrase-item">"He/She feels (happy, sad, angry)"</div>
+        <div class="phrase-item">"I think he is... because..."</div>
     </div>
 
     <div id="projectSpecificToolkit">
-        <p style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Select a project to see more tips!</p>
+        <p style="font-size: 0.8rem; color: #94a3b8;">Choose a project to see more phrases!</p>
     </div>
 
-    <div style="margin-top:30px; border-top: 1px solid #eee; padding-top: 15px;">
+    <div style="margin-top:20px; border-top: 1px solid #eee; padding-top: 15px;">
         <a href="https://www.wordreference.com" target="_blank" style="text-decoration:none; color:var(--oxford-blue); font-weight:bold; font-size:0.8rem;">🌐 WordReference Dictionary</a>
     </div>
 </div>
 
 <div class="container" id="mainContainer">
     <div class="card" id="mainForm">
-        <h2>🛠️ Production Guide</h2>
-        <p class="subtitle">Complete your A2 Remix Project Plan</p>
+        <h2>🛠️ Remix Project Guide</h2>
+        <p class="subtitle">Update your planning with the correct A2 questions.</p>
         
         <div class="step-box">
-            <div class="step-title">1. Team Details</div>
+            <div class="step-title">1. Basic Info</div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
                 <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
                 <input type="text" id="class" placeholder="Grade" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
@@ -134,7 +135,7 @@
         </div>
 
         <div class="step-box">
-            <div class="step-title">2. Select Project Format</div>
+            <div class="step-title">2. Choose Format</div>
             <div class="format-grid">
                 <div class="format-option" onclick="buildGuide('Social Media', this)">
                     <span>📱</span> <h4>Social Media</h4>
@@ -157,17 +158,17 @@
         </div>
 
         <div id="dynamicGuide">
-            <div class="step-title">3. Production Questions</div>
+            <div class="step-title">3. Planning Questions (A2)</div>
             <div id="questionsContainer"></div>
         </div>
 
-        <button class="btn-primary" onclick="showReview()">Review My Plan →</button>
+        <button class="btn-primary" onclick="showReview()">See my Final Plan →</button>
     </div>
 
     <div class="card" id="reviewSummary" style="display:none;">
-        <h3>🔍 Consolidated Document</h3>
+        <h3>🔍 My Project Plan</h3>
         <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;"></div>
-        <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Save and Exit 🚀</button>
+        <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Save & Finish 🚀</button>
         <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
     </div>
 </div>
@@ -180,51 +181,47 @@
     }
 
     const toolkits = {
-        'Social Media': `
-            <div class="tool-section"><span class="tool-label">Captions</span>
-            <div class="phrase-item">• Today, I went to...</div>
-            <div class="phrase-item">• I can't believe this!</div>
-            <div class="phrase-item">• #FeelingScared #Adventure</div></div>`,
-        'Comic Strip': `
-            <div class="tool-section"><span class="tool-label">Dialogues</span>
-            <div class="phrase-item">• "Help me!" / "Run!"</div>
-            <div class="phrase-item">• "What is happening?"</div>
-            <div class="phrase-item">• "Oh no! Look!"</div></div>`,
-        'Book Trailer': `
-            <div class="tool-section"><span class="tool-label">Hooks</span>
-            <div class="phrase-item">• Imagine a world where...</div>
-            <div class="phrase-item">• This is the story of...</div>
-            <div class="phrase-item">• Everything changes when...</div></div>`,
-        'Interview': `
-            <div class="tool-section"><span class="tool-label">Q&A</span>
-            <div class="phrase-item">• Who are you?</div>
-            <div class="phrase-item">• How do you feel?</div>
-            <div class="phrase-item">• I did it because...</div></div>`
-    };
-
-    const formatInfo = {
-        'Social Media': { task: "<b>Task:</b> Create a character profile.", content: "<b>Content:</b> 3-4 posts about key events." },
-        'Comic Strip': { task: "<b>Task:</b> Draw a 6-panel comic.", content: "<b>Content:</b> Change the original ending." },
-        'Book Trailer': { task: "<b>Task:</b> Record a 1-min video.", content: "<b>Content:</b> Sell the book! No spoilers." },
-        'Interview': { task: "<b>Task:</b> Interview the character.", content: "<b>Content:</b> 3-4 Q&As in English." }
+        'Social Media': `<div class="tool-section"><span class="tool-label">Social Media</span>
+            <div class="phrase-item">"Today, I..."</div><div class="phrase-item">"Something strange happened..."</div>
+            <div class="phrase-item">"Today, I went to the forest. I felt scared."</div></div>`,
+        'Comic Strip': `<div class="tool-section"><span class="tool-label">Comic Dialogues</span>
+            <div class="phrase-item">"Help me!" / "Run!"</div><div class="phrase-item">"What is that?" / "Let's go!"</div></div>`,
+        'Book Trailer': `<div class="tool-section"><span class="tool-label">Hook & Mystery</span>
+            <div class="phrase-item">"Something strange is happening..."</div>
+            <div class="phrase-item">"But everything changes when..."</div></div>`,
+        'Interview': `<div class="tool-section"><span class="tool-label">Roleplay Questions</span>
+            <div class="phrase-item">"Who are you?" / "How do you feel?"</div>
+            <div class="phrase-item">"Why did you...?"</div></div>`
     };
 
     const a2Guides = {
         'Social Media': [
-            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens?"] },
-            { h: "Planning", q: ["Username?", "Bio? (2 sentences)", "3 Post events?"] }
+            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
+            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
+            { h: "Planning", q: ["What is your username?", "What is your bio? (2-3 sentences)", "What 3-4 events will you post?"] },
+            { h: "Creation", q: ["What picture will you use?", "What will you write in the caption? (2-3 sentences)", "What hashtags will you use? (#happy #scared)"] },
+            { h: "Reflection", q: ["Do your posts show the story?", "Do they show the character's feelings?"] }
         ],
         'Comic Strip': [
-            { h: "Understanding", q: ["What is the problem?", "Original ending?"] },
-            { h: "Planning", q: ["Panel 1 action?", "The New Ending action?"] }
+            { h: "Understanding", q: ["What is the problem in the story?", "How does the story end?"] },
+            { h: "Analysis", q: ["Can the story end in a different way?", "What can change?"] },
+            { h: "Planning", q: ["What happens in picture 1?", "What happens in picture 2?", "What happens at the end?"] },
+            { h: "Creation", q: ["What do the characters say? (short sentences)", "How do they feel? (happy, scared, angry)"] },
+            { h: "Reflection", q: ["Is your ending clear?", "Is it different from the original story?"] }
         ],
         'Book Trailer': [
-            { h: "Understanding", q: ["Main character?", "The book mystery?"] },
-            { h: "Planning", q: ["Intro scene hook?", "3 sentences for the script?"] }
+            { h: "Understanding", q: ["Who is the main character?", "Where is the story?", "What is the problem?"] },
+            { h: "Analysis", q: ["Is the story interesting? Why?", "Is it scary, funny, or sad?"] },
+            { h: "Planning", q: ["What will you show first?", "What will you say? (write 3-4 sentences)"] },
+            { h: "Creation", q: ["Can people understand your voice?", "Is your video short (1-2 min)?"] },
+            { h: "Reflection", q: ["Does your video make people want to read the book?", "Did you tell the ending? (No!)"] }
         ],
         'Interview': [
-            { h: "Understanding", q: ["Character background?", "Key story moment?"] },
-            { h: "Planning", q: ["3 Interviewer Questions?", "3 Character Answers?"] }
+            { h: "Understanding", q: ["Who is the character?", "What happens to the character?"] },
+            { h: "Analysis", q: ["How does the character feel?", "What does the character think?"] },
+            { h: "Planning", q: ["What questions will you ask? (3-4 questions)", "What answers will you give? (short answers)"] },
+            { h: "Creation", q: ["Do you speak clearly?", "Do you use English all the time?"] },
+            { h: "Reflection", q: ["Is your interview easy to understand?", "Does the character sound real?"] }
         ]
     };
 
@@ -235,11 +232,6 @@
 
         document.getElementById('projectSpecificToolkit').innerHTML = toolkits[format];
         
-        const descBox = document.getElementById('formatDescription');
-        descBox.style.display = 'block';
-        document.getElementById('descTask').innerHTML = formatInfo[format].task;
-        document.getElementById('descContent').innerHTML = formatInfo[format].content;
-
         const guideDiv = document.getElementById('dynamicGuide');
         const container = document.getElementById('questionsContainer');
         guideDiv.style.display = 'block';
@@ -255,7 +247,6 @@
             container.appendChild(section);
         });
         
-        // Auto-open toolkit when format is selected to help them
         if(!document.getElementById('toolkitSidebar').classList.contains('open')) {
             toggleToolkit();
         }
@@ -265,7 +256,7 @@
         if(!currentSelection || !document.getElementById('names').value) {
             alert("Names and Format are required!"); return;
         }
-        let summaryHtml = `<p><b>Team:</b> ${document.getElementById('names').value}</p><p><b>Project:</b> ${currentSelection}</p><hr>`;
+        let summaryHtml = `<p><b>Students:</b> ${document.getElementById('names').value}</p><p><b>Project Type:</b> ${currentSelection}</p><hr>`;
         document.querySelectorAll('.guide-input').forEach(ta => {
             if(ta.value) summaryHtml += `<p><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
         });
