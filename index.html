@@ -14,10 +14,8 @@
             --text-muted: #64748b;
         }
 
-        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 320px; gap: 25px; }
-
-        @media (max-width: 950px) { .container { grid-template-columns: 1fr; } .toolkit-container { position: relative !important; top: 0 !important; } }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; overflow-x: hidden; }
+        .container { max-width: 800px; margin: 0 auto; transition: margin-right 0.4s; }
 
         .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
         h2, h3 { color: var(--oxford-blue); text-align: center; margin-top: 0; }
@@ -33,181 +31,200 @@
         .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 5px 15px rgba(243, 146, 0, 0.1); }
         .format-option h4 { margin: 8px 0 0 0; font-size: 0.8rem; color: var(--oxford-blue); }
 
-        /* DYNAMIC DESCRIPTION BOX */
-        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; border-left: 6px solid var(--oxford-gold); }
-        #formatDescription b { color: var(--oxford-gold); }
+        /* SLIDING SIDEBAR (TOOLKIT) */
+        .toolkit-sidebar { 
+            position: fixed; 
+            right: -350px; 
+            top: 0; 
+            width: 320px; 
+            height: 100%; 
+            background: var(--white); 
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15); 
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 1000; 
+            padding: 25px; 
+            overflow-y: auto; 
+            border-left: 8px solid var(--oxford-gold);
+        }
+        .toolkit-sidebar.open { right: 0; }
 
-        /* LANGUAGE TOOLKIT (SIDEBAR) */
-        .toolkit-container { position: sticky; top: 20px; height: fit-content; }
-        .toolkit-box { background: #fff; border-radius: 20px; border: 2px solid var(--oxford-gold); padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .toolkit-box h4 { margin: 0 0 15px 0; color: var(--oxford-blue); display: flex; align-items: center; gap: 8px; font-size: 1rem; }
-        
-        .tool-section { margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
-        .tool-label { font-size: 0.7rem; font-weight: 800; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .phrase-item { font-size: 0.8rem; color: #475569; display: block; margin-bottom: 3px; cursor: help; }
-        .phrase-item:hover { color: var(--oxford-blue); }
+        /* FLOATING BUTTON */
+        .toolkit-toggle { 
+            position: fixed; 
+            right: 25px; 
+            bottom: 25px; 
+            background: var(--oxford-gold); 
+            color: white; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            z-index: 1001; 
+            font-size: 1.8rem; 
+            border: none;
+            transition: transform 0.3s;
+        }
+        .toolkit-toggle:hover { transform: scale(1.1); }
 
-        /* DYNAMIC QUESTIONS */
-        #dynamicGuide { display: none; }
+        /* TOOLKIT CONTENT STYLING */
+        .tool-section { margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .tool-label { font-size: 0.75rem; font-weight: 800; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
+        .phrase-item { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 5px; line-height: 1.4; }
+
+        /* INPUTS & QUESTIONS */
+        #dynamicGuide { display: none; margin-top: 25px; }
         .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--oxford-gold); }
         .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 15px; display: flex; align-items: center; }
         .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
         
-        .q-item { margin-bottom: 12px; }
-        .q-item label { font-size: 0.8rem; color: #475569; display: block; margin-bottom: 5px; font-weight: 600; }
-
-        textarea { padding: 10px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; min-height: 50px; transition: 0.2s; font-family: inherit; }
+        textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; min-height: 60px; transition: 0.2s; font-family: inherit; margin-top: 5px; }
         textarea:focus { border-color: var(--oxford-gold); outline: none; background: #fff; }
 
-        button.btn-primary { background: var(--oxford-blue); color: white; padding: 16px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 10px; }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
+        
+        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="main-column">
-        <div class="card" id="mainForm">
-            <h2>🛠️ Production Script & Guide</h2>
-            <p class="subtitle">A2 Classic Remix Project - Planning Stage</p>
-            
-            <div class="step-box">
-                <div class="step-title">1. Team Details</div>
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                    <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
-                    <input type="text" id="class" placeholder="Grade" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
-                </div>
-            </div>
+<button class="toolkit-toggle" onclick="toggleToolkit()" title="Open Language Toolkit">🧰</button>
 
-            <div class="step-box">
-                <div class="step-title">2. Select Project Format</div>
-                <div class="format-grid">
-                    <div class="format-option" onclick="buildGuide('Social Media', this)">
-                        <span>📱</span> <h4>Social Media</h4>
-                    </div>
-                    <div class="format-option" onclick="buildGuide('Comic Strip', this)">
-                        <span>🎨</span> <h4>Comic Strip</h4>
-                    </div>
-                    <div class="format-option" onclick="buildGuide('Book Trailer', this)">
-                        <span>🎬</span> <h4>Book Trailer</h4>
-                    </div>
-                    <div class="format-option" onclick="buildGuide('Interview', this)">
-                        <span>🎙️</span> <h4>Interview</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div id="formatDescription">
-                <p id="descTask"></p>
-                <p id="descContent"></p>
-            </div>
-
-            <div id="dynamicGuide">
-                <div class="step-title">3. Guided Questions</div>
-                <div id="questionsContainer"></div>
-            </div>
-
-            <button class="btn-primary" onclick="showReview()">Review & Generate Guide →</button>
-        </div>
-
-        <div class="card" id="reviewSummary" style="display:none;">
-            <h3>🔍 Final Production Document</h3>
-            <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.9rem;"></div>
-            <button class="btn-primary" style="background:var(--success); margin-top:20px;" onclick="location.reload()">Save My Guide 🚀</button>
-        </div>
+<div class="toolkit-sidebar" id="toolkitSidebar">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; font-size: 1.2rem;">Language Toolkit</h3>
+        <button onclick="toggleToolkit()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.5rem;">✕</button>
     </div>
 
-    <div class="toolkit-container">
-        <div class="toolkit-box">
-            <h4>🧰 A2 Toolkit</h4>
-            
-            <div class="tool-section">
-                <span class="tool-label">Narrating Story</span>
-                <div class="phrase-item">• First / Then / After that</div>
-                <div class="phrase-item">• One day... / At the end...</div>
-            </div>
+    <div class="tool-section">
+        <span class="tool-label">Narrating (Sequencers)</span>
+        <div class="phrase-item">• First, ... / Then, ...</div>
+        <div class="phrase-item">• After that, ... / Finally, ...</div>
+    </div>
 
-            <div class="tool-section">
-                <span class="tool-label">Describing Character</span>
-                <div class="phrase-item">• He/She is (brave, scared)</div>
-                <div class="phrase-item">• I think he is... because...</div>
-            </div>
+    <div class="tool-section">
+        <span class="tool-label">Describing Character</span>
+        <div class="phrase-item">• He/She is (brave, kind, scared)</div>
+        <div class="phrase-item">• I think he/she is... because...</div>
+    </div>
 
-            <div id="projectSpecificToolkit">
-                <p style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">Select a project to see specific expressions.</p>
-            </div>
+    <div id="projectSpecificToolkit">
+        <p style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Select a project to see more tips!</p>
+    </div>
 
-            <div style="margin-top:20px;">
-                <a href="https://www.wordreference.com" target="_blank" style="font-size: 0.75rem; color: var(--oxford-blue); font-weight:bold; text-decoration:none;">🌐 WordReference Dictionary</a>
+    <div style="margin-top:30px; border-top: 1px solid #eee; padding-top: 15px;">
+        <a href="https://www.wordreference.com" target="_blank" style="text-decoration:none; color:var(--oxford-blue); font-weight:bold; font-size:0.8rem;">🌐 WordReference Dictionary</a>
+    </div>
+</div>
+
+<div class="container" id="mainContainer">
+    <div class="card" id="mainForm">
+        <h2>🛠️ Production Guide</h2>
+        <p class="subtitle">Complete your A2 Remix Project Plan</p>
+        
+        <div class="step-box">
+            <div class="step-title">1. Team Details</div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+                <input type="text" id="class" placeholder="Grade" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
             </div>
         </div>
+
+        <div class="step-box">
+            <div class="step-title">2. Select Project Format</div>
+            <div class="format-grid">
+                <div class="format-option" onclick="buildGuide('Social Media', this)">
+                    <span>📱</span> <h4>Social Media</h4>
+                </div>
+                <div class="format-option" onclick="buildGuide('Comic Strip', this)">
+                    <span>🎨</span> <h4>Comic Strip</h4>
+                </div>
+                <div class="format-option" onclick="buildGuide('Book Trailer', this)">
+                    <span>🎬</span> <h4>Book Trailer</h4>
+                </div>
+                <div class="format-option" onclick="buildGuide('Interview', this)">
+                    <span>🎙️</span> <h4>Interview</h4>
+                </div>
+            </div>
+        </div>
+
+        <div id="formatDescription">
+            <p id="descTask"></p>
+            <p id="descContent"></p>
+        </div>
+
+        <div id="dynamicGuide">
+            <div class="step-title">3. Production Questions</div>
+            <div id="questionsContainer"></div>
+        </div>
+
+        <button class="btn-primary" onclick="showReview()">Review My Plan →</button>
+    </div>
+
+    <div class="card" id="reviewSummary" style="display:none;">
+        <h3>🔍 Consolidated Document</h3>
+        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;"></div>
+        <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Save and Exit 🚀</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
     </div>
 </div>
 
 <script>
     let currentSelection = "";
 
+    function toggleToolkit() {
+        document.getElementById('toolkitSidebar').classList.toggle('open');
+    }
+
     const toolkits = {
         'Social Media': `
-            <div class="tool-section">
-                <span class="tool-label">Social Media Posts</span>
-                <div class="phrase-item">• "Today, I..."</div>
-                <div class="phrase-item">• "Something strange happened"</div>
-                <div class="phrase-item">• "#scary #alone #happy"</div>
-            </div>`,
+            <div class="tool-section"><span class="tool-label">Captions</span>
+            <div class="phrase-item">• Today, I went to...</div>
+            <div class="phrase-item">• I can't believe this!</div>
+            <div class="phrase-item">• #FeelingScared #Adventure</div></div>`,
         'Comic Strip': `
-            <div class="tool-section">
-                <span class="tool-label">Comic Dialogues</span>
-                <div class="phrase-item">• "Help me!" / "Run!"</div>
-                <div class="phrase-item">• "What is that?"</div>
-                <div class="phrase-item">• "Character: '___'"</div>
-            </div>`,
+            <div class="tool-section"><span class="tool-label">Dialogues</span>
+            <div class="phrase-item">• "Help me!" / "Run!"</div>
+            <div class="phrase-item">• "What is happening?"</div>
+            <div class="phrase-item">• "Oh no! Look!"</div></div>`,
         'Book Trailer': `
-            <div class="tool-section">
-                <span class="tool-label">Book Trailer Hook</span>
-                <div class="phrase-item">• "Something is happening..."</div>
-                <div class="phrase-item">• "This is a story about..."</div>
-                <div class="phrase-item">• "Will he survive?"</div>
-            </div>`,
+            <div class="tool-section"><span class="tool-label">Hooks</span>
+            <div class="phrase-item">• Imagine a world where...</div>
+            <div class="phrase-item">• This is the story of...</div>
+            <div class="phrase-item">• Everything changes when...</div></div>`,
         'Interview': `
-            <div class="tool-section">
-                <span class="tool-label">Interview Q&A</span>
-                <div class="phrase-item">• "Who are you?"</div>
-                <div class="phrase-item">• "How do you feel?"</div>
-                <div class="phrase-item">• "I feel... because..."</div>
-            </div>`
+            <div class="tool-section"><span class="tool-label">Q&A</span>
+            <div class="phrase-item">• Who are you?</div>
+            <div class="phrase-item">• How do you feel?</div>
+            <div class="phrase-item">• I did it because...</div></div>`
     };
 
     const formatInfo = {
-        'Social Media': { task: "<b>Task:</b> Character Profile.", content: "<b>Content:</b> 3-4 posts about events and feelings." },
-        'Comic Strip': { task: "<b>Task:</b> 6-8 Panel Comic.", content: "<b>Content:</b> Create a new ending for the story." },
-        'Book Trailer': { task: "<b>Task:</b> 1-min Video.", content: "<b>Content:</b> Mystery and hook. No spoilers!" },
-        'Interview': { task: "<b>Task:</b> Journalist vs Character.", content: "<b>Content:</b> 3-4 Q&As about the story." }
+        'Social Media': { task: "<b>Task:</b> Create a character profile.", content: "<b>Content:</b> 3-4 posts about key events." },
+        'Comic Strip': { task: "<b>Task:</b> Draw a 6-panel comic.", content: "<b>Content:</b> Change the original ending." },
+        'Book Trailer': { task: "<b>Task:</b> Record a 1-min video.", content: "<b>Content:</b> Sell the book! No spoilers." },
+        'Interview': { task: "<b>Task:</b> Interview the character.", content: "<b>Content:</b> 3-4 Q&As in English." }
     };
 
     const a2Guides = {
         'Social Media': [
             { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens?"] },
-            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does he/she like?"] },
-            { h: "Planning", q: ["Username?", "Bio? (2-3 sentences)", "3 events to post?"] },
-            { h: "Creation", q: ["Caption drafts?", "Hashtags?"] }
+            { h: "Planning", q: ["Username?", "Bio? (2 sentences)", "3 Post events?"] }
         ],
         'Comic Strip': [
-            { h: "Understanding", q: ["Main problem?", "Original ending?"] },
-            { h: "Analysis", q: ["Different ending idea?", "What changes?"] },
-            { h: "Planning", q: ["Event 1?", "Event 2?", "Final Resolution?"] },
-            { h: "Creation", q: ["Dialogue script?", "Feelings (happy, angry)?"] }
+            { h: "Understanding", q: ["What is the problem?", "Original ending?"] },
+            { h: "Planning", q: ["Panel 1 action?", "The New Ending action?"] }
         ],
         'Book Trailer': [
-            { h: "Understanding", q: ["Main character?", "The problem?"] },
-            { h: "Analysis", q: ["Interesting part?", "Mood (Funny, sad)?"] },
-            { h: "Planning", q: ["Intro hook?", "3 sentences to say?"] },
-            { h: "Creation", q: ["Voice clarity plan?", "Length check?"] }
+            { h: "Understanding", q: ["Main character?", "The book mystery?"] },
+            { h: "Planning", q: ["Intro scene hook?", "3 sentences for the script?"] }
         ],
         'Interview': [
-            { h: "Understanding", q: ["Who is the character?", "Story events?"] },
-            { h: "Analysis", q: ["Character's feelings?", "Character's thoughts?"] },
-            { h: "Planning", q: ["3 Questions?", "3 Answers?"] },
-            { h: "Creation", q: ["Tone of voice?", "Clear English check?"] }
+            { h: "Understanding", q: ["Character background?", "Key story moment?"] },
+            { h: "Planning", q: ["3 Interviewer Questions?", "3 Character Answers?"] }
         ]
     };
 
@@ -216,16 +233,13 @@
         document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
 
-        // Update Toolkit
         document.getElementById('projectSpecificToolkit').innerHTML = toolkits[format];
-
-        // Update Description
+        
         const descBox = document.getElementById('formatDescription');
         descBox.style.display = 'block';
         document.getElementById('descTask').innerHTML = formatInfo[format].task;
         document.getElementById('descContent').innerHTML = formatInfo[format].content;
 
-        // Build Questions
         const guideDiv = document.getElementById('dynamicGuide');
         const container = document.getElementById('questionsContainer');
         guideDiv.style.display = 'block';
@@ -240,21 +254,29 @@
             });
             container.appendChild(section);
         });
-        window.scrollTo({ top: descBox.offsetTop - 20, behavior: 'smooth' });
+        
+        // Auto-open toolkit when format is selected to help them
+        if(!document.getElementById('toolkitSidebar').classList.contains('open')) {
+            toggleToolkit();
+        }
     }
 
     function showReview() {
         if(!currentSelection || !document.getElementById('names').value) {
-            alert("Please complete Names and Format!"); return;
+            alert("Names and Format are required!"); return;
         }
-        let summaryHtml = `<p><b>Team:</b> ${document.getElementById('names').value} | <b>Class:</b> ${document.getElementById('class').value}</p>
-                           <p><b>Project:</b> ${currentSelection}</p><hr>`;
+        let summaryHtml = `<p><b>Team:</b> ${document.getElementById('names').value}</p><p><b>Project:</b> ${currentSelection}</p><hr>`;
         document.querySelectorAll('.guide-input').forEach(ta => {
             if(ta.value) summaryHtml += `<p><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
         });
         document.getElementById('summaryContent').innerHTML = summaryHtml;
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
+    }
+
+    function hideReview() {
+        document.getElementById('mainForm').style.display = 'block';
+        document.getElementById('reviewSummary').style.display = 'none';
     }
 </script>
 
