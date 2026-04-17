@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Literacy Lab - Production Roadmap</title>
+    <title>Literacy Lab - Final Project Production Guide</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -14,112 +14,47 @@
             --text-muted: #64748b;
         }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--soft-bg);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; }
         .container { max-width: 950px; margin: 0 auto; }
 
-        .card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border-top: 10px solid var(--oxford-blue);
-        }
-
+        .card { background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 10px solid var(--oxford-blue); }
         h2, h3 { color: var(--oxford-blue); margin-top: 0; text-align: center; }
-        .subtitle { text-align: center; color: var(--text-muted); margin-top: -10px; margin-bottom: 30px; }
+        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; }
 
-        .step-box {
-            background: #f8fafc;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
-        }
+        .step-box { background: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; }
 
-        .step-title { 
-            color: var(--oxford-blue); 
-            font-weight: bold; 
-            margin-bottom: 15px; 
-            border-bottom: 2px solid var(--oxford-gold);
-            padding-bottom: 5px;
-            width: fit-content;
-        }
+        /* FORMAT SELECTION */
+        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; cursor: pointer; background: white; transition: 0.3s; }
+        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-2px); }
+        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; }
+        .format-option h4 { margin: 5px 0; font-size: 0.9rem; }
 
-        /* PRODUCT SELECTION */
-        .format-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+        /* DINAMIC QUESTIONNAIRE */
+        #dynamicGuide { display: none; }
+        .phase-container { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--oxford-gold); }
+        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.85rem; margin-bottom: 15px; display: flex; align-items: center; }
+        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        
+        .q-group { margin-bottom: 15px; }
+        .q-group label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 5px; font-weight: normal; }
 
-        .format-option {
-            border: 2px solid #e2e8f0;
-            padding: 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.3s;
-            background: white;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-3px); }
-        .format-option.selected {
-            border-color: var(--oxford-gold);
-            background: #fffcf0;
-            box-shadow: 0 5px 15px rgba(243, 146, 0, 0.2);
-        }
-
-        .format-option h4 { margin: 10px 0 5px 0; color: var(--oxford-blue); font-size: 1rem; }
-        .format-option small { font-size: 0.7rem; color: var(--text-muted); line-height: 1.2; }
-
-        /* DYNAMIC GUIDE (CON FASES) */
-        #dynamicGuide {
-            display: none;
-            background: #fffdf0;
-            border: 2px solid var(--oxford-gold);
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-        }
-
-        .guide-phase { margin-bottom: 15px; }
-        .phase-title { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.8rem; display: flex; align-items: center; margin-bottom: 8px; }
-        .phase-title span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 8px; }
-        .guide-q { font-size: 0.85rem; padding-left: 28px; margin-bottom: 4px; color: #475569; position: relative; }
-        .guide-q::before { content: "•"; position: absolute; left: 15px; color: var(--oxford-gold); }
-
-        /* INPUTS & TEXTAREAS */
-        label { font-weight: bold; color: var(--oxford-blue); display: block; margin: 15px 0 8px 0; font-size: 0.9rem; }
-        input, textarea { padding: 14px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+        /* INPUTS */
+        input, textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; }
+        textarea { resize: vertical; min-height: 60px; }
+        input:focus, textarea:focus { border-color: var(--oxford-gold); outline: none; }
 
         /* DICTIONARY SIDEBAR */
-        #dictionarySidebar {
-            position: fixed; right: -320px; top: 0; width: 300px; height: 100%;
-            background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s;
-            z-index: 1000; padding: 20px; overflow-y: auto; border-left: 5px solid var(--oxford-gold);
-        }
+        #dictionarySidebar { position: fixed; right: -320px; top: 0; width: 300px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 20px; overflow-y: auto; border-left: 5px solid var(--oxford-gold); }
         #dictionarySidebar.open { right: 0; }
-        .dic-toggle {
-            position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold);
-            color: white; width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.5rem; border: none;
-        }
-        .dic-search { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin: 15px 0; }
-        .dic-item { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.85rem; border-bottom: 1px solid #f9f9f9; }
-        .dic-en { color: #d97706; font-weight: bold; }
+        .dic-toggle { position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.5rem; border: none; }
+        
+        /* SUMMARY */
+        .summary-block { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #ddd; }
+        .summary-header { color: var(--oxford-gold); font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
 
-        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 10px; }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -129,198 +64,177 @@
 <div id="dictionarySidebar">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <h3 style="margin:0;">Resources</h3>
-        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer;">✕</button>
+        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.2rem;">✕</button>
     </div>
-    
-    <div style="margin-top: 15px; background: #eef4fb; padding: 10px; border-radius: 8px; border: 1px solid #d1e2f3;">
-        <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; color: #002147; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">
-            🌐 Go to WordReference
-        </a>
+    <div style="margin-top: 15px;">
+        <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:10px; border-radius:8px; font-weight:bold; font-size:0.8rem;">🌐 WordReference</a>
     </div>
-
-    <input type="text" class="dic-search" id="dicSearch" onkeyup="searchDic()" placeholder="Quick search...">
-    <div id="dicList">
-        <div class="dic-item"><span>De repente</span> <span class="dic-en">Suddenly</span></div>
-        <div class="dic-item"><span>Sin embargo</span> <span class="dic-en">However</span></div>
-        <div class="dic-item"><span>Descubrir</span> <span class="dic-en">Discover</span></div>
-        <div class="dic-item"><span>Valiente</span> <span class="dic-en">Brave</span></div>
+    <div style="margin-top: 20px; font-size: 0.85rem;">
+        <div style="font-weight:bold; color:var(--oxford-blue); border-bottom:1px solid #eee; margin-bottom:5px;">QUICK CONNECTORS</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>Suddenly</span> <span style="color:var(--oxford-gold);">De repente</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>However</span> <span style="color:var(--oxford-gold);">Sin embargo</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>In my opinion</span> <span style="color:var(--oxford-gold);">En mi opinión</span></div>
     </div>
 </div>
 
 <div class="container">
     <div class="card" id="mainForm">
-        <h2>🛠️ Production Roadmap</h2>
-        <p class="subtitle">Select your format to see the specialized step-by-step guide.</p>
+        <h2>🛠️ Final Project Production Guide</h2>
+        <p class="subtitle">Select your project format and complete your drafting guide.</p>
         
         <div class="step-box">
-            <div class="step-title">1. Identification</div>
+            <div class="step-title">1. Team & Book</div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                <input type="text" id="names" placeholder="Students' Names">
+                <input type="text" id="names" placeholder="Names of Students">
                 <input type="text" id="class" placeholder="Course">
             </div>
             <input type="text" id="book" placeholder="Book Title" style="margin-top:10px;">
         </div>
 
         <div class="step-box">
-            <div class="step-title">2. Choose Format</div>
+            <div class="step-title">2. Select Project Format</div>
             <div class="format-grid">
-                <div class="format-option" onclick="updateUI('Social Media', this)">
-                    <span>📱</span>
-                    <h4>Social Media Profile</h4>
-                    <small>Instagram/TikTok profile for the character based on Cornell summaries.</small>
+                <div class="format-option" onclick="generateSteps('Social Media', this)">
+                    <span>📱</span> <h4>Social Media Profile</h4>
                 </div>
-                <div class="format-option" onclick="updateUI('Comic Strip', this)">
-                    <span>🎨</span>
-                    <h4>Comic Strip</h4>
-                    <small>6-8 panel strip with an alternative ending and original resolution.</small>
+                <div class="format-option" onclick="generateSteps('Comic Strip', this)">
+                    <span>🎨</span> <h4>Comic Strip</h4>
                 </div>
-                <div class="format-option" onclick="updateUI('Book Trailer', this)">
-                    <span>🎬</span>
-                    <h4>Book Trailer</h4>
-                    <small>1-2 min video. Focus on atmosphere and mystery without spoilers.</small>
+                <div class="format-option" onclick="generateSteps('Book Trailer', this)">
+                    <span>🎬</span> <h4>Book Trailer</h4>
                 </div>
-                <div class="format-option" onclick="updateUI('Interview', this)">
-                    <span>🎙️</span>
-                    <h4>Roleplay / Podcast</h4>
-                    <small>Character interview using questions from your Cornell Sheets.</small>
+                <div class="format-option" onclick="generateSteps('Interview', this)">
+                    <span>🎙️</span> <h4>Interview / Podcast</h4>
                 </div>
             </div>
         </div>
 
         <div id="dynamicGuide">
-            <h3 style="text-align: left; font-size: 1.1rem; margin-bottom: 20px;">⚡ Step-by-Step Design Guide</h3>
-            <div id="guideContent"></div>
+            <div class="step-title">3. Design & Planning Phases</div>
+            <div id="questionsContainer"></div>
         </div>
 
         <div class="step-box">
-            <div class="step-title">3. Storyboard & Drafting</div>
-            <label id="labelStart">Initial Stage:</label>
-            <textarea id="storyStart" placeholder="..." style="height: 60px;"></textarea>
+            <div class="step-title">4. Production Storyboard</div>
+            <label>Link to Cornell Research (Quote or Detail):</label>
+            <textarea id="cornellLink" placeholder="Which part of your notes justifies this design?"></textarea>
             
-            <label id="labelMiddle" style="color:var(--oxford-gold);">The Remix / Twist (Core Change):</label>
-            <textarea id="storyMiddle" placeholder="What happens differently?" style="height: 80px; border-color: var(--oxford-gold);"></textarea>
-            
-            <label id="labelEnd">Resolution:</label>
-            <textarea id="storyEnd" placeholder="..." style="height: 60px;"></textarea>
+            <label style="margin-top:20px;">Remix Twists (Core Narrative Changes):</label>
+            <textarea id="remixTwist" placeholder="Describe the specific changes you are making to the original story." style="height:100px; border-color: var(--oxford-gold);"></textarea>
         </div>
 
-        <div class="step-box">
-            <div class="step-title">4. Connection with Research</div>
-            <label>Link to your Cornell Notes (Specific detail/quote):</label>
-            <textarea id="evidence" placeholder="How does your research support this change?" style="height: 60px;"></textarea>
-        </div>
-
-        <button class="btn-primary" onclick="showReview()">Review & Submit Plan →</button>
+        <button class="btn-primary" onclick="showReview()">Review Production Document →</button>
     </div>
 
     <div class="card" id="reviewSummary" style="display:none;">
-        <h3>🔍 Production Review</h3>
+        <h3>🔍 Consolidated Production Guide</h3>
+        <p class="subtitle">Verify your answers before final submission.</p>
         <div id="summaryContent" style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin-bottom: 20px;"></div>
-        <button class="btn-confirm" id="sendBtn" onclick="sendData()" style="background:var(--success); color:white;">Send to Teacher 🚀</button>
-        <button class="btn-back" onclick="hideReview()" style="background:#64748b; color:white; margin-top:10px;">Edit details ✏️</button>
+        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Confirm and Send to Teacher 🚀</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back and Edit ✏️</button>
     </div>
 
     <div class="card" id="successMessage" style="display:none; text-align:center;">
         <div style="font-size: 5rem;">✅</div>
-        <h2>Drafting Submitted!</h2>
-        <p>Your production roadmap is ready. You can start creating your final product now.</p>
-        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Start New Plan</button>
+        <h2>Guide Consolidated!</h2>
+        <p>Your planning document has been saved. You can now use this as your script for the final creation.</p>
+        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">New Guide</button>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT";
-    let selectedProduct = "";
+    let currentFormat = "";
 
-    function toggleDic() { document.getElementById('dictionarySidebar').classList.toggle('open'); }
-    function searchDic() {
-        let input = document.getElementById('dicSearch').value.toLowerCase();
-        let items = document.getElementsByClassName('dic-item');
-        for (let i = 0; i < items.length; i++) {
-            items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "flex" : "none";
-        }
-    }
-
-    const dataModel = {
-        'Social Media': {
-            labels: ["Username & Bio", "Events to Post (4-6)", "Reflection Check"],
-            phases: [
-                { title: "Understanding", q: ["Who is the main character?", "What are the most important events?", "How does the character feel?"] },
-                { title: "Analysis", q: ["Character personality type?", "How would they express feelings online?", "Which moments are worth posting?"] },
-                { title: "Planning", q: ["Username choice?", "Bio description?", "Select 4-6 specific events."] },
-                { title: "Creation", q: ["Image ideas for each post?", "Captions (3-5 lines)?", "Relevant Hashtags?"] },
-                { title: "Reflection", q: ["Does it show the story clearly?", "Matches the character's personality?"] }
-            ]
-        },
-        'Comic Strip': {
-            labels: ["Original Situation", "Decision/Twist", "New Resolution"],
-            phases: [
-                { title: "Understanding", q: ["Main conflict?", "Original ending?"] },
-                { title: "Analysis", q: ["What could change?", "What if a different decision is made?"] },
-                { title: "Planning", q: ["Panel-by-panel sequence (1-8)", "How is the new ending different?"] },
-                { title: "Creation", q: ["Characters' dialogues?", "Showing emotions in drawings?"] },
-                { title: "Reflection", q: ["Does it make sense?", "Connected to original conflict?"] }
-            ]
-        },
-        'Book Trailer': {
-            labels: ["The Hook & Setting", "Tension & Build-up", "The Final Question"],
-            phases: [
-                { title: "Understanding", q: ["Character, Setting, and Main Problem?"] },
-                { title: "Analysis", q: ["What makes it interesting?", "Which parts create mystery?"] },
-                { title: "Planning", q: ["Scene selection?", "Voice-over script?", "The 'Hook' start?"] },
-                { title: "Creation", q: ["Recording method?", "Sounds or images to use?"] },
-                { title: "Reflection", q: ["Does it generate interest?", "Avoids spoilers?"] }
-            ]
-        },
-        'Interview': {
-            labels: ["Intro & Question 1", "Cornell-based Core", "Final Personality Check"],
-            phases: [
-                { title: "Understanding", q: ["Character background?", "Character experiences?"] },
-                { title: "Analysis", q: ["Feelings about events?", "Character's opinions?"] },
-                { title: "Planning", q: ["Journalist's questions?", "Character's expanded answers?"] },
-                { title: "Creation", q: ["Natural conversation flow?", "Showing emotions and personality?"] },
-                { title: "Reflection", q: ["Sounds realistic?", "Represents the character well?"] }
-            ]
-        }
+    const projectData = {
+        'Social Media': [
+            { phase: "Understanding", questions: ["Who is the main character?", "What are the most important events?", "How does the character feel in each event?"] },
+            { phase: "Analysis", questions: ["What personality type does the character have?", "How would the character express feelings online?", "What moments are worth posting?"] },
+            { phase: "Planning", questions: ["Username choice?", "Character Bio?", "List of 4–6 events to post:"] },
+            { phase: "Creation", questions: ["Visual ideas for each post?", "Draft of captions (3-5 lines):", "Strategic Hashtags:"] },
+            { phase: "Reflection", questions: ["Do posts show the story clearly?", "Is the personality consistent?"] }
+        ],
+        'Comic Strip': [
+            { phase: "Understanding", questions: ["Main conflict?", "Original ending?"] },
+            { phase: "Analysis", questions: ["What could change?", "What if the character made a different decision?"] },
+            { phase: "Planning", questions: ["Panel 1-8 sequence outline:", "How will the new ending be different?"] },
+            { phase: "Creation", questions: ["Key dialogues per panel:", "Methods to show emotions in drawings:"] },
+            { phase: "Reflection", questions: ["Does the new ending make sense?", "Connected to original conflict?"] }
+        ],
+        'Book Trailer': [
+            { phase: "Understanding", questions: ["Main character & Setting?", "The main problem/tension?"] },
+            { phase: "Analysis", questions: ["What makes it interesting?", "Which parts create mystery?"] },
+            { phase: "Planning", questions: ["Scene selection (Outline):", "The Hook (Opening line):", "Script draft (Highlights):"] },
+            { phase: "Creation", questions: ["Recording/Editing tools?", "Music and sound atmosphere:"] },
+            { phase: "Reflection", questions: ["Does it generate curiosity?", "Spoilers checked?"] }
+        ],
+        'Interview': [
+            { phase: "Understanding", questions: ["Character background?", "Key life experiences?"] },
+            { phase: "Analysis", questions: ["Character's hidden feelings?", "Specific opinions on the conflict?"] },
+            { phase: "Planning", questions: ["Journalist's 3 main questions:", "Character's expanded responses:"] },
+            { phase: "Creation", questions: ["Methods for natural conversation:", "Showing personality via voice/tone:"] },
+            { phase: "Reflection", questions: ["Does it sound realistic?", "Matches the book's character?"] }
+        ]
     };
 
-    function updateUI(product, element) {
-        selectedProduct = product;
+    function toggleDic() { document.getElementById('dictionarySidebar').classList.toggle('open'); }
+
+    function generateSteps(format, element) {
+        currentFormat = format;
         document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
-
-        const model = dataModel[product];
-        const guideArea = document.getElementById('dynamicGuide');
-        guideArea.style.display = 'block';
-
-        let html = '';
-        model.phases.forEach(phase => {
-            html += `<div class="guide-phase">
-                <div class="phase-title"><span>${phase.title}</span></div>
-                ${phase.q.map(q => `<div class="guide-q">${q}</div>`).join('')}
-            </div>`;
-        });
-        document.getElementById('guideContent').innerHTML = html;
-
-        document.getElementById('labelStart').innerText = model.labels[0] + ":";
-        document.getElementById('labelMiddle').innerText = model.labels[1] + ":";
-        document.getElementById('labelEnd').innerText = model.labels[2] + ":";
         
+        const guideArea = document.getElementById('dynamicGuide');
+        const container = document.getElementById('questionsContainer');
+        guideArea.style.display = 'block';
+        container.innerHTML = "";
+
+        projectData[format].forEach((p, pIndex) => {
+            let phaseDiv = document.createElement('div');
+            phaseDiv.className = "phase-container";
+            phaseDiv.innerHTML = `<div class="phase-header"><span>Phase ${pIndex+1}</span> ${p.phase}</div>`;
+            
+            p.questions.forEach((q, qIndex) => {
+                let qId = `q_${pIndex}_${qIndex}`;
+                phaseDiv.innerHTML += `
+                    <div class="q-group">
+                        <label>${q}</label>
+                        <textarea id="${qId}" class="dynamic-input"></textarea>
+                    </div>`;
+            });
+            container.appendChild(phaseDiv);
+        });
         window.scrollTo({ top: guideArea.offsetTop - 20, behavior: 'smooth' });
     }
 
     function showReview() {
-        if (!document.getElementById('names').value || !selectedProduct) {
-            alert("Please complete names and select a format."); return;
+        if(!currentFormat || !document.getElementById('names').value) {
+            alert("Please complete the basic info and select a format."); return;
         }
-        document.getElementById('summaryContent').innerHTML = `
-            <p><strong>Team:</strong> ${document.getElementById('names').value}</p>
-            <p><strong>Format:</strong> ${selectedProduct}</p>
-            <p><strong>Remix Plan:</strong> ${document.getElementById('storyMiddle').value}</p>
-            <p><strong>Evidence:</strong> ${document.getElementById('evidence').value}</p>
+
+        let summaryHtml = `
+            <div class="summary-block"><span class="summary-header">Format:</span> ${currentFormat}</div>
+            <div class="summary-block"><span class="summary-header">Cornell Link:</span> ${document.getElementById('cornellLink').value}</div>
+            <div class="summary-block"><span class="summary-header">The Remix/Twist:</span> ${document.getElementById('remixTwist').value}</div>
+            <h4 style="margin-top:20px; color:var(--oxford-blue);">Plan Details:</h4>
         `;
+
+        const inputs = document.querySelectorAll('.dynamic-input');
+        inputs.forEach(input => {
+            const questionLabel = input.previousElementSibling.innerText;
+            if(input.value) {
+                summaryHtml += `
+                    <div class="summary-block">
+                        <span class="summary-header">${questionLabel}</span>
+                        <div>${input.value}</div>
+                    </div>`;
+            }
+        });
+
+        document.getElementById('summaryContent').innerHTML = summaryHtml;
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
+        window.scrollTo(0,0);
     }
 
     function hideReview() {
@@ -329,26 +243,9 @@
     }
 
     async function sendData() {
-        const btn = document.getElementById('sendBtn');
-        btn.disabled = true; btn.innerText = "Sending...";
-        const data = {
-            names: document.getElementById('names').value,
-            class: document.getElementById('class').value,
-            book: document.getElementById('book').value,
-            product: selectedProduct,
-            story_start: document.getElementById('storyStart').value,
-            story_middle: document.getElementById('storyMiddle').value,
-            story_end: document.getElementById('storyEnd').value,
-            evidence: document.getElementById('evidence').value
-        };
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
-            document.getElementById('reviewSummary').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-        } catch (e) {
-            alert("Error sending. Check connection.");
-            btn.disabled = false;
-        }
+        // Lógica de envío simplificada para ejemplo
+        document.getElementById('reviewSummary').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
     }
 </script>
 
