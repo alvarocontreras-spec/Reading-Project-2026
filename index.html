@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Literacy Lab - Final Project Production Guide</title>
+    <title>Literacy Lab - Final Project (A2)</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -15,87 +15,88 @@
         }
 
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 950px; margin: 0 auto; }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        .card { background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border-top: 10px solid var(--oxford-blue); }
-        h2, h3 { color: var(--oxford-blue); margin-top: 0; text-align: center; }
-        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; }
+        .card { background: var(--white); padding: 35px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
+        h2, h3 { color: var(--oxford-blue); text-align: center; }
+        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
 
-        .step-box { background: #f8fafc; padding: 25px; border-radius: 16px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
-        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; }
+        .step-box { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 12px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 4px; width: fit-content; font-size: 1rem; }
 
         /* FORMAT SELECTION */
-        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; cursor: pointer; background: white; transition: 0.3s; }
+        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 12px; cursor: pointer; background: white; transition: 0.2s; text-align: center; }
         .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-2px); }
-        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; }
-        .format-option h4 { margin: 5px 0; font-size: 0.9rem; }
+        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 4px 12px rgba(243, 146, 0, 0.1); }
+        .format-option h4 { margin: 8px 0 0 0; font-size: 0.85rem; }
 
         /* DINAMIC QUESTIONNAIRE */
         #dynamicGuide { display: none; }
-        .phase-container { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--oxford-gold); }
-        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.85rem; margin-bottom: 15px; display: flex; align-items: center; }
-        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        .phase-container { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 5px solid var(--oxford-gold); }
+        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 12px; display: flex; align-items: center; }
+        .phase-header span { background: var(--oxford-gold); color: white; padding: 1px 6px; border-radius: 3px; margin-right: 8px; }
         
-        .q-group { margin-bottom: 15px; }
-        .q-group label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 5px; font-weight: normal; }
+        .q-group { margin-bottom: 12px; }
+        .q-group label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 4px; }
 
         /* INPUTS */
-        input, textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; }
-        textarea { resize: vertical; min-height: 60px; }
+        input, textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
+        textarea { min-height: 50px; }
         input:focus, textarea:focus { border-color: var(--oxford-gold); outline: none; }
 
         /* DICTIONARY SIDEBAR */
         #dictionarySidebar { position: fixed; right: -320px; top: 0; width: 300px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 20px; overflow-y: auto; border-left: 5px solid var(--oxford-gold); }
         #dictionarySidebar.open { right: 0; }
-        .dic-toggle { position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.5rem; border: none; }
+        .dic-toggle { position: fixed; right: 20px; bottom: 20px; background: var(--oxford-gold); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.3rem; border: none; }
         
-        /* SUMMARY */
-        .summary-block { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid #ddd; }
-        .summary-header { color: var(--oxford-gold); font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 15px; border-radius: 10px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
 
-        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 20px; }
+        .summary-block { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #ddd; font-size: 0.9rem; }
+        .summary-header { color: var(--oxford-gold); font-weight: bold; font-size: 0.7rem; text-transform: uppercase; display: block; }
     </style>
 </head>
 <body>
 
 <button class="dic-toggle" onclick="toggleDic()">📖</button>
-
 <div id="dictionarySidebar">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="margin:0;">Resources</h3>
-        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.2rem;">✕</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h3 style="margin:0; font-size:1.1rem;">Helper Tools</h3>
+        <button onclick="toggleDic()" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">✕</button>
     </div>
-    <div style="margin-top: 15px;">
-        <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:10px; border-radius:8px; font-weight:bold; font-size:0.8rem;">🌐 WordReference</a>
-    </div>
-    <div style="margin-top: 20px; font-size: 0.85rem;">
-        <div style="font-weight:bold; color:var(--oxford-blue); border-bottom:1px solid #eee; margin-bottom:5px;">QUICK CONNECTORS</div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>Suddenly</span> <span style="color:var(--oxford-gold);">De repente</span></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>However</span> <span style="color:var(--oxford-gold);">Sin embargo</span></div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:3px;"><span>In my opinion</span> <span style="color:var(--oxford-gold);">En mi opinión</span></div>
+    <a href="https://www.wordreference.com/es/" target="_blank" style="text-decoration:none; background:#002147; color:white; display:block; text-align:center; padding:10px; border-radius:8px; font-weight:bold; font-size:0.8rem; margin-bottom:20px;">🌐 Open WordReference</a>
+    
+    <div style="font-size: 0.85rem;">
+        <div style="font-weight:bold; color:var(--oxford-blue); border-bottom:1px solid #eee; margin-bottom:8px;">EASY WORDS (A2)</div>
+        <div style="display:flex; justify-content:space-between;"><span>Happy</span> <span style="color:var(--oxford-gold);">Feliz</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Sad</span> <span style="color:var(--oxford-gold);">Triste</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Scared</span> <span style="color:var(--oxford-gold);">Asustado</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Angry</span> <span style="color:var(--oxford-gold);">Enojado</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>First</span> <span style="color:var(--oxford-gold);">Primero</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Then</span> <span style="color:var(--oxford-gold);">Luego</span></div>
+        <div style="display:flex; justify-content:space-between;"><span>Finally</span> <span style="color:var(--oxford-gold);">Finalmente</span></div>
     </div>
 </div>
 
 <div class="container">
     <div class="card" id="mainForm">
-        <h2>🛠️ Final Project Production Guide</h2>
-        <p class="subtitle">Select your project format and complete your drafting guide.</p>
+        <h2>🚀 Final Project Planning (A2)</h2>
+        <p class="subtitle">Select your project and answer the simple questions.</p>
         
         <div class="step-box">
-            <div class="step-title">1. Team & Book</div>
+            <div class="step-title">1. Basic Info</div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                <input type="text" id="names" placeholder="Names of Students">
-                <input type="text" id="class" placeholder="Course">
+                <input type="text" id="names" placeholder="Names (Student 1 & 2)">
+                <input type="text" id="class" placeholder="Grade/Class">
             </div>
             <input type="text" id="book" placeholder="Book Title" style="margin-top:10px;">
         </div>
 
         <div class="step-box">
-            <div class="step-title">2. Select Project Format</div>
+            <div class="step-title">2. Choose your Project</div>
             <div class="format-grid">
                 <div class="format-option" onclick="generateSteps('Social Media', this)">
-                    <span>📱</span> <h4>Social Media Profile</h4>
+                    <span>📱</span> <h4>Social Media</h4>
                 </div>
                 <div class="format-option" onclick="generateSteps('Comic Strip', this)">
                     <span>🎨</span> <h4>Comic Strip</h4>
@@ -104,76 +105,71 @@
                     <span>🎬</span> <h4>Book Trailer</h4>
                 </div>
                 <div class="format-option" onclick="generateSteps('Interview', this)">
-                    <span>🎙️</span> <h4>Interview / Podcast</h4>
+                    <span>🎙️</span> <h4>Interview</h4>
                 </div>
             </div>
         </div>
 
         <div id="dynamicGuide">
-            <div class="step-title">3. Design & Planning Phases</div>
+            <div class="step-title">3. Your Simple Guide</div>
             <div id="questionsContainer"></div>
         </div>
 
         <div class="step-box">
-            <div class="step-title">4. Production Storyboard</div>
-            <label>Link to Cornell Research (Quote or Detail):</label>
-            <textarea id="cornellLink" placeholder="Which part of your notes justifies this design?"></textarea>
-            
-            <label style="margin-top:20px;">Remix Twists (Core Narrative Changes):</label>
-            <textarea id="remixTwist" placeholder="Describe the specific changes you are making to the original story." style="height:100px; border-color: var(--oxford-gold);"></textarea>
+            <div class="step-title">4. Extra Details</div>
+            <label>Why is your remix original? (Simple English):</label>
+            <textarea id="remixTwist" placeholder="Example: In my story, the character escapes to the forest..."></textarea>
         </div>
 
-        <button class="btn-primary" onclick="showReview()">Review Production Document →</button>
+        <button class="btn-primary" onclick="showReview()">Review my Plan →</button>
     </div>
 
     <div class="card" id="reviewSummary" style="display:none;">
-        <h3>🔍 Consolidated Production Guide</h3>
-        <p class="subtitle">Verify your answers before final submission.</p>
-        <div id="summaryContent" style="background: #f1f5f9; padding: 25px; border-radius: 15px; margin-bottom: 20px;"></div>
-        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Confirm and Send to Teacher 🚀</button>
-        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back and Edit ✏️</button>
+        <h3>🔍 My Project Plan</h3>
+        <div id="summaryContent" style="background: #f1f5f9; padding: 20px; border-radius: 12px; margin-bottom: 20px;"></div>
+        <button class="btn-primary" style="background:var(--success);" onclick="sendData()">Send to Teacher 🚀</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
     </div>
 
     <div class="card" id="successMessage" style="display:none; text-align:center;">
-        <div style="font-size: 5rem;">✅</div>
-        <h2>Guide Consolidated!</h2>
-        <p>Your planning document has been saved. You can now use this as your script for the final creation.</p>
-        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">New Guide</button>
+        <div style="font-size: 4rem;">✅</div>
+        <h2>Good Job!</h2>
+        <p>Your plan is ready. Use this guide to create your project.</p>
+        <button class="btn-primary" style="background: var(--oxford-gold); width: auto;" onclick="location.reload()">Start New</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT";
     let currentFormat = "";
 
     const projectData = {
         'Social Media': [
-            { phase: "Understanding", questions: ["Who is the main character?", "What are the most important events?", "How does the character feel in each event?"] },
-            { phase: "Analysis", questions: ["What personality type does the character have?", "How would the character express feelings online?", "What moments are worth posting?"] },
-            { phase: "Planning", questions: ["Username choice?", "Character Bio?", "List of 4–6 events to post:"] },
-            { phase: "Creation", questions: ["Visual ideas for each post?", "Draft of captions (3-5 lines):", "Strategic Hashtags:"] },
-            { phase: "Reflection", questions: ["Do posts show the story clearly?", "Is the personality consistent?"] }
+            { phase: "Understanding", questions: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
+            { phase: "Analysis", questions: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
+            { phase: "Planning", questions: ["What is your username?", "What is your bio? (2–3 sentences)", "What 3–4 events will you post?"] },
+            { phase: "Creation", questions: ["What picture will you use?", "What will you write in the caption? (2–3 sentences)", "What hashtags will you use? (#happy #scared)"] },
+            { phase: "Reflection", questions: ["Do your posts show the story?", "Do they show the character’s feelings?"] }
         ],
         'Comic Strip': [
-            { phase: "Understanding", questions: ["Main conflict?", "Original ending?"] },
-            { phase: "Analysis", questions: ["What could change?", "What if the character made a different decision?"] },
-            { phase: "Planning", questions: ["Panel 1-8 sequence outline:", "How will the new ending be different?"] },
-            { phase: "Creation", questions: ["Key dialogues per panel:", "Methods to show emotions in drawings:"] },
-            { phase: "Reflection", questions: ["Does the new ending make sense?", "Connected to original conflict?"] }
+            { phase: "Understanding", questions: ["What is the problem in the story?", "How does the story end?"] },
+            { phase: "Analysis", questions: ["Can the story end in a different way?", "What can change?"] },
+            { phase: "Planning", questions: ["What happens in picture 1?", "What happens in picture 2?", "What happens at the end?"] },
+            { phase: "Creation", questions: ["What do the characters say? (short sentences)", "How do they feel? (happy, scared, angry)"] },
+            { phase: "Reflection", questions: ["Is your ending clear?", "Is it different from the original story?"] }
         ],
         'Book Trailer': [
-            { phase: "Understanding", questions: ["Main character & Setting?", "The main problem/tension?"] },
-            { phase: "Analysis", questions: ["What makes it interesting?", "Which parts create mystery?"] },
-            { phase: "Planning", questions: ["Scene selection (Outline):", "The Hook (Opening line):", "Script draft (Highlights):"] },
-            { phase: "Creation", questions: ["Recording/Editing tools?", "Music and sound atmosphere:"] },
-            { phase: "Reflection", questions: ["Does it generate curiosity?", "Spoilers checked?"] }
+            { phase: "Understanding", questions: ["Who is the main character?", "Where is the story?", "What is the problem?"] },
+            { phase: "Analysis", questions: ["Is the story interesting? Why?", "Is it scary, funny, or sad?"] },
+            { phase: "Planning", questions: ["What will you show first?", "What will you say? (write 3–4 sentences)"] },
+            { phase: "Creation", questions: ["Can people understand your voice?", "Is your video short (1–2 min)?"] },
+            { phase: "Reflection", questions: ["Does your video make people want to read the book?", "Did you tell the ending? (No!)"] }
         ],
         'Interview': [
-            { phase: "Understanding", questions: ["Character background?", "Key life experiences?"] },
-            { phase: "Analysis", questions: ["Character's hidden feelings?", "Specific opinions on the conflict?"] },
-            { phase: "Planning", questions: ["Journalist's 3 main questions:", "Character's expanded responses:"] },
-            { phase: "Creation", questions: ["Methods for natural conversation:", "Showing personality via voice/tone:"] },
-            { phase: "Reflection", questions: ["Does it sound realistic?", "Matches the book's character?"] }
+            { phase: "Understanding", questions: ["Who is the character?", "What happens to the character?"] },
+            { phase: "Analysis", questions: ["How does the character feel?", "What does the character think?"] },
+            { phase: "Planning", questions: ["What questions will you ask? (3–4 questions)", "What answers will you give? (short answers)"] },
+            { phase: "Creation", questions: ["Do you speak clearly?", "Do you use English all the time?"] },
+            { phase: "Reflection", questions: ["Is your interview easy to understand?", "Does the character sound real?"] }
         ]
     };
 
@@ -192,14 +188,13 @@
         projectData[format].forEach((p, pIndex) => {
             let phaseDiv = document.createElement('div');
             phaseDiv.className = "phase-container";
-            phaseDiv.innerHTML = `<div class="phase-header"><span>Phase ${pIndex+1}</span> ${p.phase}</div>`;
+            phaseDiv.innerHTML = `<div class="phase-header"><span>Step ${pIndex+1}</span> ${p.phase}</div>`;
             
             p.questions.forEach((q, qIndex) => {
-                let qId = `q_${pIndex}_${qIndex}`;
                 phaseDiv.innerHTML += `
                     <div class="q-group">
                         <label>${q}</label>
-                        <textarea id="${qId}" class="dynamic-input"></textarea>
+                        <textarea class="dynamic-input"></textarea>
                     </div>`;
             });
             container.appendChild(phaseDiv);
@@ -209,25 +204,17 @@
 
     function showReview() {
         if(!currentFormat || !document.getElementById('names').value) {
-            alert("Please complete the basic info and select a format."); return;
+            alert("Please write your names and select a project!"); return;
         }
 
-        let summaryHtml = `
-            <div class="summary-block"><span class="summary-header">Format:</span> ${currentFormat}</div>
-            <div class="summary-block"><span class="summary-header">Cornell Link:</span> ${document.getElementById('cornellLink').value}</div>
-            <div class="summary-block"><span class="summary-header">The Remix/Twist:</span> ${document.getElementById('remixTwist').value}</div>
-            <h4 style="margin-top:20px; color:var(--oxford-blue);">Plan Details:</h4>
-        `;
+        let summaryHtml = `<div class="summary-block"><span class="summary-header">Names:</span> ${document.getElementById('names').value}</div>
+                           <div class="summary-block"><span class="summary-header">Format:</span> ${currentFormat}</div>`;
 
         const inputs = document.querySelectorAll('.dynamic-input');
         inputs.forEach(input => {
-            const questionLabel = input.previousElementSibling.innerText;
+            const question = input.previousElementSibling.innerText;
             if(input.value) {
-                summaryHtml += `
-                    <div class="summary-block">
-                        <span class="summary-header">${questionLabel}</span>
-                        <div>${input.value}</div>
-                    </div>`;
+                summaryHtml += `<div class="summary-block"><span class="summary-header">${question}</span>${input.value}</div>`;
             }
         });
 
@@ -242,8 +229,7 @@
         document.getElementById('reviewSummary').style.display = 'none';
     }
 
-    async function sendData() {
-        // Lógica de envío simplificada para ejemplo
+    function sendData() {
         document.getElementById('reviewSummary').style.display = 'none';
         document.getElementById('successMessage').style.display = 'block';
     }
