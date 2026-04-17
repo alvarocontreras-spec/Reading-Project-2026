@@ -68,7 +68,7 @@
         /* PRODUCT SELECTION */
         .format-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -78,18 +78,23 @@
             padding: 20px;
             border-radius: 15px;
             cursor: pointer;
-            text-align: center;
+            text-align: left;
             transition: 0.3s;
             background: white;
+            display: flex;
+            flex-direction: column;
         }
 
         .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-3px); }
         .format-option.selected {
-            background: var(--oxford-gold);
-            color: white;
             border-color: var(--oxford-gold);
-            box-shadow: 0 5px 15px rgba(243, 146, 0, 0.3);
+            background: #fffcf0;
+            box-shadow: 0 5px 15px rgba(243, 146, 0, 0.2);
         }
+
+        .format-option h4 { margin: 10px 0 5px 0; color: var(--oxford-blue); }
+        .format-option small { font-size: 0.75rem; line-height: 1.3; color: var(--text-muted); }
+        .format-option.selected h4 { color: var(--oxford-gold); }
 
         /* DINAMIC GUIDE AREA */
         #dynamicGuide {
@@ -188,31 +193,35 @@
 <div id="dictionarySidebar">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <h3 style="color:var(--oxford-blue); margin:0;">Dictionary</h3>
-        <button onclick="toggleDic()" style="width:auto; padding:5px; background:none; color:red;">✕</button>
+        <button onclick="toggleDic()" style="width:auto; padding:5px; background:none; color:red; border:none; cursor:pointer;">✕</button>
     </div>
-    <input type="text" class="dic-search" id="dicSearch" onkeyup="searchDic()" placeholder="Search word...">
+
+    <div style="margin-top: 15px; background: #eef4fb; padding: 10px; border-radius: 8px; border: 1px solid #d1e2f3;">
+        <p style="font-size: 0.75rem; margin: 0 0 8px 0; color: var(--oxford-blue); font-weight: bold;">¿Buscas algo más complejo?</p>
+        <a href="https://www.wordreference.com/es/" target="_blank" style="display: flex; align-items: center; justify-content: center; background: #002147; color: white; text-decoration: none; padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold;">
+            🌐 Open WordReference
+        </a>
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <input type="text" class="dic-search" id="dicSearch" onkeyup="searchDic()" placeholder="Search quick word...">
     
     <div id="dicList">
-        <div class="dic-category">CONECTORES / TRANSITIONS</div>
+        <div class="dic-category">TRANSITIONS</div>
         <div class="dic-item"><span>De repente</span> <span class="dic-en">Suddenly</span></div>
         <div class="dic-item"><span>Sin embargo</span> <span class="dic-en">However</span></div>
         <div class="dic-item"><span>Al principio</span> <span class="dic-en">At the beginning</span></div>
-        <div class="dic-item"><span>Por eso</span> <span class="dic-en">That's why</span></div>
         <div class="dic-item"><span>Mientras tanto</span> <span class="dic-en">Meanwhile</span></div>
-
-        <div class="dic-category">ACCIONES / VERBS</div>
+        
+        <div class="dic-category">VERBS</div>
         <div class="dic-item"><span>Darse cuenta</span> <span class="dic-en">Realize</span></div>
         <div class="dic-item"><span>Descubrir</span> <span class="dic-en">Discover</span></div>
-        <div class="dic-item"><span>Escapar</span> <span class="dic-en">Escape</span></div>
         <div class="dic-item"><span>Sobrevivir</span> <span class="dic-en">Survive</span></div>
-        <div class="dic-item"><span>Cambiar</span> <span class="dic-en">Change</span></div>
-
-        <div class="dic-category">SENTIMIENTOS / FEELINGS</div>
-        <div class="dic-item"><span>Asustado</span> <span class="dic-en">Scared</span></div>
-        <div class="dic-item"><span>Enojado</span> <span class="dic-en">Angry</span></div>
+        
+        <div class="dic-category">FEELINGS</div>
         <div class="dic-item"><span>Valiente</span> <span class="dic-en">Brave</span></div>
         <div class="dic-item"><span>Confundido</span> <span class="dic-en">Confused</span></div>
-        <div class="dic-item"><span>Preocupado</span> <span class="dic-en">Worried</span></div>
     </div>
 </div>
 
@@ -220,7 +229,7 @@
     
     <div class="card" id="mainForm">
         <h2>🚀 Plan de Producción: Creative Remix</h2>
-        <p class="subtitle">Selecciona tu producto para desbloquear tu guía paso a paso.</p>
+        <p class="subtitle">Selecciona tu formato y completa tu hoja de ruta.</p>
         
         <div class="step-box">
             <div class="step-title">1. Team & Book</div>
@@ -235,20 +244,28 @@
             <div class="step-title">2. Choose Final Product</div>
             <div class="format-grid">
                 <div class="format-option" onclick="updateUI('Social Media', this)">
-                    <span style="font-size: 2rem;">📱</span>
-                    <h4>Social Media</h4>
+                    <span style="font-size: 1.5rem;">📱</span>
+                    <h4>Social Media Profile</h4>
+                    <small><b>Task:</b> Create an Instagram/TikTok profile for the character.</small>
+                    <small><b>Content:</b> Posts about key events based on Cornell summaries.</small>
                 </div>
                 <div class="format-option" onclick="updateUI('Comic Strip', this)">
-                    <span style="font-size: 2rem;">🎨</span>
-                    <h4>Comic Strip</h4>
+                    <span style="font-size: 1.5rem;">🎨</span>
+                    <h4>"Alternative Ending" Comic</h4>
+                    <small><b>Task:</b> Draw a 6-8 panel strip with a different ending.</small>
+                    <small><b>Content:</b> Use identified conflicts for a new resolution.</small>
                 </div>
                 <div class="format-option" onclick="updateUI('Book Trailer', this)">
-                    <span style="font-size: 2rem;">🎬</span>
-                    <h4>Book Trailer</h4>
+                    <span style="font-size: 1.5rem;">🎬</span>
+                    <h4>Book Trailer (Video)</h4>
+                    <small><b>Task:</b> Record a 1-2 min video to "sell" the book.</small>
+                    <small><b>Content:</b> Focus on mystery and atmosphere. No spoilers!</small>
                 </div>
                 <div class="format-option" onclick="updateUI('Interview', this)">
-                    <span style="font-size: 2rem;">🎙️</span>
-                    <h4>Roleplay/Podcast</h4>
+                    <span style="font-size: 1.5rem;">🎙️</span>
+                    <h4>"Meeting the Character"</h4>
+                    <small><b>Task:</b> Roleplay/Podcast between journalist and character.</small>
+                    <small><b>Content:</b> Use questions from your Cornell Sheets.</small>
                 </div>
             </div>
         </div>
@@ -304,10 +321,7 @@
     const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT";
     let selectedProduct = "";
 
-    // DICCIONARIO LOGIC
-    function toggleDic() {
-        document.getElementById('dictionarySidebar').classList.toggle('open');
-    }
+    function toggleDic() { document.getElementById('dictionarySidebar').classList.toggle('open'); }
 
     function searchDic() {
         let input = document.getElementById('dicSearch').value.toLowerCase();
@@ -346,44 +360,28 @@
         element.classList.add('selected');
 
         const guide = guides[product];
-        const guideArea = document.getElementById('dynamicGuide');
-        const guideContent = document.getElementById('guideContent');
-        
-        guideArea.style.display = 'block';
-        guideContent.innerHTML = guide.steps.map(s => `<div class="guide-step">${s}</div>`).join('');
+        document.getElementById('dynamicGuide').style.display = 'block';
+        document.getElementById('guideContent').innerHTML = guide.steps.map(s => `<div class="guide-step">${s}</div>`).join('');
         
         document.getElementById('labelStart').innerText = guide.labels[0] + ":";
         document.getElementById('labelMiddle').innerText = guide.labels[1] + ":";
         document.getElementById('labelEnd').innerText = guide.labels[2] + ":";
 
-        const langArea = document.getElementById('languageSupport');
-        const pillsArea = document.getElementById('pills');
-        langArea.style.display = 'block';
-        pillsArea.innerHTML = guide.pills.map(p => `<span class="language-pill">${p}</span>`).join('');
+        document.getElementById('languageSupport').style.display = 'block';
+        document.getElementById('pills').innerHTML = guide.pills.map(p => `<span class="language-pill">${p}</span>`).join('');
     }
 
     function showReview() {
-        const data = {
-            names: document.getElementById('names').value,
-            product: selectedProduct,
-            middle: document.getElementById('storyMiddle').value,
-            evidence: document.getElementById('evidence').value
-        };
-
-        if (!data.names || !selectedProduct || !data.middle || !data.evidence) {
-            alert("⚠️ Por favor, completa los nombres, selecciona un producto y rellena la planificación del Twist.");
+        if (!document.getElementById('names').value || !selectedProduct || !document.getElementById('storyMiddle').value) {
+            alert("⚠️ Por favor completa los nombres, el producto y tu plan del Twist.");
             return;
         }
-
         document.getElementById('summaryContent').innerHTML = `
             <div style="margin-bottom:10px;"><strong>Pareja:</strong> ${document.getElementById('names').value}</div>
             <div style="margin-bottom:10px;"><strong>Producto:</strong> ${selectedProduct}</div>
-            <div style="margin-bottom:10px;"><strong>Inicio:</strong> ${document.getElementById('storyStart').value}</div>
-            <div style="margin-bottom:10px; border-left:4px solid var(--oxford-gold); padding-left:10px;"><strong>Plan del Twist:</strong> ${data.middle}</div>
-            <div style="margin-bottom:10px;"><strong>Final:</strong> ${document.getElementById('storyEnd').value}</div>
-            <div style="margin-bottom:10px;"><strong>Evidencia Cornell:</strong> ${data.evidence}</div>
+            <div style="margin-bottom:10px;"><strong>Twist Plan:</strong> ${document.getElementById('storyMiddle').value}</div>
+            <div style="margin-bottom:10px;"><strong>Cornell Evidence:</strong> ${document.getElementById('evidence').value}</div>
         `;
-
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
     }
@@ -397,7 +395,6 @@
         const btn = document.getElementById('sendBtn');
         btn.disabled = true;
         btn.innerText = "⌛ Enviando...";
-
         const data = {
             names: document.getElementById('names').value,
             class: document.getElementById('class').value,
@@ -408,18 +405,12 @@
             story_end: document.getElementById('storyEnd').value,
             evidence: document.getElementById('evidence').value
         };
-
         try {
-            await fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "text/plain" },
-                body: JSON.stringify(data)
-            });
+            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) });
             document.getElementById('reviewSummary').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
         } catch (e) {
-            alert("Error al enviar. Inténtalo de nuevo.");
+            alert("Error al enviar.");
             btn.disabled = false;
         }
     }
