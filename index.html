@@ -15,16 +15,16 @@
         }
 
         body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 950px; margin: 0 auto; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 320px; gap: 25px; }
 
-        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .toolkit-container { position: relative !important; top: 0 !important; } }
+        @media (max-width: 950px) { .container { grid-template-columns: 1fr; } .toolkit-container { position: relative !important; top: 0 !important; } }
 
         .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
         h2, h3 { color: var(--oxford-blue); text-align: center; margin-top: 0; }
-        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; }
+        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; }
 
         .step-box { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; text-transform: uppercase; font-size: 0.9rem; }
+        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; text-transform: uppercase; font-size: 0.85rem; }
 
         /* FORMAT SELECTION */
         .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
@@ -33,31 +33,33 @@
         .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 5px 15px rgba(243, 146, 0, 0.1); }
         .format-option h4 { margin: 8px 0 0 0; font-size: 0.8rem; color: var(--oxford-blue); }
 
-        /* LANGUAGE TOOLKIT BOX */
+        /* DYNAMIC DESCRIPTION BOX */
+        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; border-left: 6px solid var(--oxford-gold); }
+        #formatDescription b { color: var(--oxford-gold); }
+
+        /* LANGUAGE TOOLKIT (SIDEBAR) */
         .toolkit-container { position: sticky; top: 20px; height: fit-content; }
         .toolkit-box { background: #fff; border-radius: 20px; border: 2px solid var(--oxford-gold); padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .toolkit-box h4 { margin: 0 0 15px 0; color: var(--oxford-blue); display: flex; align-items: center; gap: 8px; font-size: 1rem; }
-        .tool-section { margin-bottom: 15px; }
-        .tool-label { font-size: 0.75rem; font-weight: bold; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .phrase-list { font-size: 0.85rem; line-height: 1.6; color: #475569; }
-        .phrase-item { background: #f1f5f9; padding: 4px 8px; border-radius: 5px; margin-bottom: 4px; display: block; border-left: 3px solid #cbd5e1; }
-
-        /* DYNAMIC QUESTIONNAIRE */
-        #dynamicGuide { display: none; }
-        .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-left: 6px solid var(--oxford-gold); }
-        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.8rem; margin-bottom: 15px; display: flex; align-items: center; letter-spacing: 1px; }
-        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 10px; border-radius: 4px; margin-right: 12px; }
         
-        .q-item { margin-bottom: 15px; }
-        .q-item label { font-size: 0.85rem; color: #475569; display: block; margin-bottom: 6px; font-weight: 600; }
+        .tool-section { margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .tool-label { font-size: 0.7rem; font-weight: 800; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .phrase-item { font-size: 0.8rem; color: #475569; display: block; margin-bottom: 3px; cursor: help; }
+        .phrase-item:hover { color: var(--oxford-blue); }
 
-        textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; min-height: 60px; transition: 0.2s; font-family: inherit; }
+        /* DYNAMIC QUESTIONS */
+        #dynamicGuide { display: none; }
+        .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--oxford-gold); }
+        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 15px; display: flex; align-items: center; }
+        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        
+        .q-item { margin-bottom: 12px; }
+        .q-item label { font-size: 0.8rem; color: #475569; display: block; margin-bottom: 5px; font-weight: 600; }
+
+        textarea { padding: 10px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.9rem; width: 100%; box-sizing: border-box; min-height: 50px; transition: 0.2s; font-family: inherit; }
         textarea:focus { border-color: var(--oxford-gold); outline: none; background: #fff; }
 
-        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 10px; }
-        
-        #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; }
-        #formatDescription b { color: var(--oxford-gold); }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 16px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -66,11 +68,14 @@
     <div class="main-column">
         <div class="card" id="mainForm">
             <h2>🛠️ Production Script & Guide</h2>
-            <p class="subtitle">Complete your planning guide for the Final Project.</p>
+            <p class="subtitle">A2 Classic Remix Project - Planning Stage</p>
             
             <div class="step-box">
                 <div class="step-title">1. Team Details</div>
-                <input type="text" id="names" placeholder="Students' Names" style="padding:12px; border-radius:10px; border:2px solid #cbd5e1; width:100%;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                    <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+                    <input type="text" id="class" placeholder="Grade" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+                </div>
             </div>
 
             <div class="step-box">
@@ -97,33 +102,42 @@
             </div>
 
             <div id="dynamicGuide">
-                <div class="step-title">3. Production Questions</div>
+                <div class="step-title">3. Guided Questions</div>
                 <div id="questionsContainer"></div>
             </div>
 
-            <button class="btn-primary" onclick="showReview()">Review & Consolidate Guide →</button>
+            <button class="btn-primary" onclick="showReview()">Review & Generate Guide →</button>
         </div>
 
         <div class="card" id="reviewSummary" style="display:none;">
-            <h3>🔍 Final Consolidated Document</h3>
-            <div id="summaryContent"></div>
-            <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Save & Finish 🚀</button>
-            <button class="btn-primary" style="background:#64748b;" onclick="document.getElementById('mainForm').style.display='block'; document.getElementById('reviewSummary').style.display='none';">Go Back</button>
+            <h3>🔍 Final Production Document</h3>
+            <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.9rem;"></div>
+            <button class="btn-primary" style="background:var(--success); margin-top:20px;" onclick="location.reload()">Save My Guide 🚀</button>
         </div>
     </div>
 
     <div class="toolkit-container">
         <div class="toolkit-box">
-            <h4>💡 Language Toolkit</h4>
-            <div id="toolkitContent">
-                <p style="font-size: 0.8rem; color: #64748b;">Select a project format to see helpful phrases!</p>
-            </div>
-            
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <h4>🧰 A2 Toolkit</h4>
             
             <div class="tool-section">
-                <span class="tool-label">Dictionary</span>
-                <a href="https://www.wordreference.com" target="_blank" style="font-size: 0.8rem; color: var(--oxford-blue); text-decoration: none; font-weight: bold;">Open WordReference 🌐</a>
+                <span class="tool-label">Narrating Story</span>
+                <div class="phrase-item">• First / Then / After that</div>
+                <div class="phrase-item">• One day... / At the end...</div>
+            </div>
+
+            <div class="tool-section">
+                <span class="tool-label">Describing Character</span>
+                <div class="phrase-item">• He/She is (brave, scared)</div>
+                <div class="phrase-item">• I think he is... because...</div>
+            </div>
+
+            <div id="projectSpecificToolkit">
+                <p style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">Select a project to see specific expressions.</p>
+            </div>
+
+            <div style="margin-top:20px;">
+                <a href="https://www.wordreference.com" target="_blank" style="font-size: 0.75rem; color: var(--oxford-blue); font-weight:bold; text-decoration:none;">🌐 WordReference Dictionary</a>
             </div>
         </div>
     </div>
@@ -135,98 +149,65 @@
     const toolkits = {
         'Social Media': `
             <div class="tool-section">
-                <span class="tool-label">Character Intro</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"I am feeling..."</span>
-                    <span class="phrase-item">"Today was a [adj] day."</span>
-                </div>
-            </div>
-            <div class="tool-section">
-                <span class="tool-label">Captions & Hashtags</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"Look at this!"</span>
-                    <span class="phrase-item">"#BestDay #Scared #Adventure"</span>
-                </div>
+                <span class="tool-label">Social Media Posts</span>
+                <div class="phrase-item">• "Today, I..."</div>
+                <div class="phrase-item">• "Something strange happened"</div>
+                <div class="phrase-item">• "#scary #alone #happy"</div>
             </div>`,
         'Comic Strip': `
             <div class="tool-section">
-                <span class="tool-label">Sequencing</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"First, the character..."</span>
-                    <span class="phrase-item">"Then, suddenly..."</span>
-                    <span class="phrase-item">"In the end, they..."</span>
-                </div>
-            </div>
-            <div class="tool-section">
-                <span class="tool-label">Dialogues</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"Oh no! Look out!"</span>
-                    <span class="phrase-item">"I have a different idea."</span>
-                </div>
+                <span class="tool-label">Comic Dialogues</span>
+                <div class="phrase-item">• "Help me!" / "Run!"</div>
+                <div class="phrase-item">• "What is that?"</div>
+                <div class="phrase-item">• "Character: '___'"</div>
             </div>`,
         'Book Trailer': `
             <div class="tool-section">
-                <span class="tool-label">The Hook</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"Imagine a world where..."</span>
-                    <span class="phrase-item">"What would you do if...?"</span>
-                </div>
-            </div>
-            <div class="tool-section">
-                <span class="tool-label">Recommendations</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"You must read this because..."</span>
-                    <span class="phrase-item">"The story is very [adj]."</span>
-                </div>
+                <span class="tool-label">Book Trailer Hook</span>
+                <div class="phrase-item">• "Something is happening..."</div>
+                <div class="phrase-item">• "This is a story about..."</div>
+                <div class="phrase-item">• "Will he survive?"</div>
             </div>`,
         'Interview': `
             <div class="tool-section">
-                <span class="tool-label">Question Starters</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"How do you feel about...?"</span>
-                    <span class="phrase-item">"Why did you choose to...?"</span>
-                </div>
-            </div>
-            <div class="tool-section">
-                <span class="tool-label">Giving Opinions</span>
-                <div class="phrase-list">
-                    <span class="phrase-item">"In my opinion..."</span>
-                    <span class="phrase-item">"I think that..."</span>
-                </div>
+                <span class="tool-label">Interview Q&A</span>
+                <div class="phrase-item">• "Who are you?"</div>
+                <div class="phrase-item">• "How do you feel?"</div>
+                <div class="phrase-item">• "I feel... because..."</div>
             </div>`
     };
 
     const formatInfo = {
-        'Social Media': { task: "<b>Task:</b> Character Profile.", content: "<b>Content:</b> Posts based on your Cornell notes." },
-        'Comic Strip': { task: "<b>Task:</b> 6-8 Panel Comic.", content: "<b>Content:</b> A new, original ending." },
+        'Social Media': { task: "<b>Task:</b> Character Profile.", content: "<b>Content:</b> 3-4 posts about events and feelings." },
+        'Comic Strip': { task: "<b>Task:</b> 6-8 Panel Comic.", content: "<b>Content:</b> Create a new ending for the story." },
         'Book Trailer': { task: "<b>Task:</b> 1-min Video.", content: "<b>Content:</b> Mystery and hook. No spoilers!" },
-        'Interview': { task: "<b>Task:</b> Journalist vs Character.", content: "<b>Content:</b> Q&A about feelings and plot." }
+        'Interview': { task: "<b>Task:</b> Journalist vs Character.", content: "<b>Content:</b> 3-4 Q&As about the story." }
     };
 
     const a2Guides = {
         'Social Media': [
-            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
-            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
-            { h: "Planning", q: ["Username?", "Bio? (2-3 sentences)", "3-4 main events to post?"] },
-            { h: "Creation", q: ["Picture ideas?", "Caption drafts?", "Hashtags?"] }
+            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens?"] },
+            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does he/she like?"] },
+            { h: "Planning", q: ["Username?", "Bio? (2-3 sentences)", "3 events to post?"] },
+            { h: "Creation", q: ["Caption drafts?", "Hashtags?"] }
         ],
         'Comic Strip': [
             { h: "Understanding", q: ["Main problem?", "Original ending?"] },
             { h: "Analysis", q: ["Different ending idea?", "What changes?"] },
-            { h: "Planning", q: ["Picture 1 event?", "Picture 2 event?", "The final picture?"] },
-            { h: "Creation", q: ["Dialogue script?", "Characters' feelings?"] }
+            { h: "Planning", q: ["Event 1?", "Event 2?", "Final Resolution?"] },
+            { h: "Creation", q: ["Dialogue script?", "Feelings (happy, angry)?"] }
         ],
         'Book Trailer': [
             { h: "Understanding", q: ["Main character?", "The problem?"] },
-            { h: "Analysis", q: ["Why is it interesting?", "Mood (Scary, funny, sad)?"] },
-            { h: "Planning", q: ["Intro scene?", "3 key lines to say?"] },
-            { h: "Creation", q: ["Voice clarity plan?", "Short video check?"] }
+            { h: "Analysis", q: ["Interesting part?", "Mood (Funny, sad)?"] },
+            { h: "Planning", q: ["Intro hook?", "3 sentences to say?"] },
+            { h: "Creation", q: ["Voice clarity plan?", "Length check?"] }
         ],
         'Interview': [
-            { h: "Understanding", q: ["Who is being interviewed?", "Key plot points?"] },
-            { h: "Analysis", q: ["Character's emotions?", "Character's thoughts?"] },
-            { h: "Planning", q: ["3 Journalist questions?", "3 Character answers?"] },
-            { h: "Creation", q: ["Voice tone?", "Speaking clearly?"] }
+            { h: "Understanding", q: ["Who is the character?", "Story events?"] },
+            { h: "Analysis", q: ["Character's feelings?", "Character's thoughts?"] },
+            { h: "Planning", q: ["3 Questions?", "3 Answers?"] },
+            { h: "Creation", q: ["Tone of voice?", "Clear English check?"] }
         ]
     };
 
@@ -236,7 +217,7 @@
         element.classList.add('selected');
 
         // Update Toolkit
-        document.getElementById('toolkitContent').innerHTML = toolkits[format];
+        document.getElementById('projectSpecificToolkit').innerHTML = toolkits[format];
 
         // Update Description
         const descBox = document.getElementById('formatDescription');
@@ -255,28 +236,22 @@
             section.className = "phase-section";
             section.innerHTML = `<div class="phase-header"><span>PHASE ${pIdx+1}</span> ${phase.h}</div>`;
             phase.q.forEach(q => {
-                section.innerHTML += `
-                    <div class="q-item">
-                        <label>${q}</label>
-                        <textarea class="guide-input"></textarea>
-                    </div>`;
+                section.innerHTML += `<div class="q-item"><label>${q}</label><textarea class="guide-input"></textarea></div>`;
             });
             container.appendChild(section);
         });
+        window.scrollTo({ top: descBox.offsetTop - 20, behavior: 'smooth' });
     }
 
     function showReview() {
         if(!currentSelection || !document.getElementById('names').value) {
             alert("Please complete Names and Format!"); return;
         }
-        let summaryHtml = `<div style="background:#fff; padding:20px; border-radius:15px; border:1px solid #ddd;">
-            <p><b>Team:</b> ${document.getElementById('names').value}</p>
-            <p><b>Project:</b> ${currentSelection}</p><hr>`;
-        
+        let summaryHtml = `<p><b>Team:</b> ${document.getElementById('names').value} | <b>Class:</b> ${document.getElementById('class').value}</p>
+                           <p><b>Project:</b> ${currentSelection}</p><hr>`;
         document.querySelectorAll('.guide-input').forEach(ta => {
-            if(ta.value) summaryHtml += `<p style="font-size:0.85rem;"><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
+            if(ta.value) summaryHtml += `<p><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
         });
-        summaryHtml += `</div>`;
         document.getElementById('summaryContent').innerHTML = summaryHtml;
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
