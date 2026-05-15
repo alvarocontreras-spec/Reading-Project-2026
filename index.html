@@ -87,6 +87,11 @@
         button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
         
         #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; border-left: 6px solid var(--oxford-gold); }
+
+        /* Estilo para el resumen impreso/Word */
+        .summary-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #ccc; }
+        .summary-q { font-weight: bold; color: #002147; display: block; }
+        .summary-a { color: #333; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
@@ -167,8 +172,10 @@
 
     <div class="card" id="reviewSummary" style="display:none;">
         <h3>🔍 My Project Plan</h3>
-        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;"></div>
-        <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Save & Finish 🚀</button>
+        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;">
+            </div>
+        
+        <button class="btn-primary" style="background:var(--success);" onclick="exportToWord()">Download Word (.doc) 📄</button>
         <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
     </div>
 </div>
@@ -253,13 +260,39 @@
     }
 
     function showReview() {
-        if(!currentSelection || !document.getElementById('names').value) {
+        const names = document.getElementById('names').value;
+        const grade = document.getElementById('class').value;
+
+        if(!currentSelection || !names) {
             alert("Names and Format are required!"); return;
         }
-        let summaryHtml = `<p><b>Students:</b> ${document.getElementById('names').value}</p><p><b>Project Type:</b> ${currentSelection}</p><hr>`;
-        document.querySelectorAll('.guide-input').forEach(ta => {
-            if(ta.value) summaryHtml += `<p><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
+
+        let summaryHtml = `
+            <div id="wordContent">
+                <h1 style="color: #002147; text-align: center;">Literacy Lab Project Plan</h1>
+                <p><strong>Students:</strong> ${names}</p>
+                <p><strong>Grade:</strong> ${grade}</p>
+                <p><strong>Format:</strong> ${currentSelection}</p>
+                <hr style="border: 1px solid #F39200;">
+        `;
+
+        document.querySelectorAll('.phase-section').forEach(section => {
+            const header = section.querySelector('.phase-header').innerText;
+            summaryHtml += `<h3 style="color: #F39200; margin-top: 20px;">${header}</h3>`;
+            
+            section.querySelectorAll('.q-item').forEach(item => {
+                const question = item.querySelector('label').innerText;
+                const answer = item.querySelector('textarea').value || "(No answer)";
+                summaryHtml += `
+                    <div class="summary-item">
+                        <span class="summary-q">Q: ${question}</span>
+                        <span class="summary-a">A: ${answer}</span>
+                    </div>
+                `;
+            });
         });
+
+        summaryHtml += `</div>`;
         document.getElementById('summaryContent').innerHTML = summaryHtml;
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
@@ -268,6 +301,39 @@
     function hideReview() {
         document.getElementById('mainForm').style.display = 'block';
         document.getElementById('reviewSummary').style.display = 'none';
+    }
+
+    // FUNCIÓN PARA EXPORTAR A WORD
+    function exportToWord() {
+        const content = document.getElementById('summaryContent').innerHTML;
+        
+        // Estilos específicos para Word
+        const style = `
+            <style>
+                body { font-family: 'Arial', sans-serif; }
+                h1 { color: #002147; text-align: center; }
+                h3 { color: #F39200; border-bottom: 1px solid #F39200; }
+                .summary-item { margin-bottom: 10px; }
+                .summary-q { font-weight: bold; display: block; }
+                .summary-a { display: block; margin-bottom: 10px; }
+            </style>
+        `;
+
+        const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                "<head><meta charset='utf-8'>" + style + "</head><body>";
+        const footer = "</body></html>";
+        
+        const sourceHTML = header + content + footer;
+        
+        const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+        const fileDownload = document.createElement("a");
+        document.body.appendChild(fileDownload);
+        fileDownload.href = source;
+        fileDownload.download = 'Project_Plan_' + document.getElementById('names').value.replace(/\s+/g, '_') + '.doc';
+        fileDownload.click();
+        document.body.removeChild(fileDownload);
     }
 </script>
 
