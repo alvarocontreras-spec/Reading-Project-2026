@@ -88,10 +88,12 @@
         
         #formatDescription { display: none; background: var(--oxford-blue); color: white; padding: 15px; border-radius: 15px; margin-bottom: 20px; font-size: 0.85rem; border-left: 6px solid var(--oxford-gold); }
 
-        /* Estilo para el resumen impreso/Word */
         .summary-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px dashed #ccc; }
         .summary-q { font-weight: bold; color: #002147; display: block; }
         .summary-a { color: #333; margin-top: 5px; display: block; }
+
+        .name-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .name-grid input { padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -103,79 +105,56 @@
         <h3 style="margin:0; font-size: 1.1rem;">🧰 Language Toolkit A2</h3>
         <button onclick="toggleToolkit()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.5rem;">✕</button>
     </div>
-
     <div class="tool-section">
         <span class="tool-label">1. Sequencing (Story)</span>
         <div class="phrase-item">"First, ... / Then, ... / Finally, ..."</div>
-        <div class="phrase-item">"One day, ... / At the end, ..."</div>
     </div>
-
     <div class="tool-section">
         <span class="tool-label">2. Character description</span>
         <div class="phrase-item">"He/She is (brave, kind, scared)"</div>
-        <div class="phrase-item">"He/She feels (happy, sad, angry)"</div>
-        <div class="phrase-item">"I think he is... because..."</div>
     </div>
-
     <div id="projectSpecificToolkit">
         <p style="font-size: 0.8rem; color: #94a3b8;">Choose a project to see more phrases!</p>
     </div>
-
-    <div style="margin-top:20px; border-top: 1px solid #eee; padding-top: 15px;">
-        <a href="https://www.wordreference.com" target="_blank" style="text-decoration:none; color:var(--oxford-blue); font-weight:bold; font-size:0.8rem;">🌐 WordReference Dictionary</a>
-    </div>
 </div>
 
-<div class="container" id="mainContainer">
+<div class="container">
     <div class="card" id="mainForm">
         <h2>🛠️ Final Project Production Guide</h2>
-        <p class="subtitle">Roll up your sleeves, buckle down, and make it count!.</p>
+        <p class="subtitle">Roll up your sleeves and work together!</p>
         
         <div class="step-box">
             <div class="step-title">1. Basic Info</div>
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
-                <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
-                <input type="text" id="class" placeholder="Grade" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+            <div class="name-grid">
+                <input type="text" id="name1" placeholder="Student 1 Name">
+                <input type="text" id="name2" placeholder="Student 2 Name">
             </div>
+            <input type="text" id="class" placeholder="Grade / Section" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; box-sizing: border-box;">
         </div>
 
         <div class="step-box">
             <div class="step-title">2. Choose Format</div>
             <div class="format-grid">
-                <div class="format-option" onclick="buildGuide('Social Media', this)">
-                    <span>📱</span> <h4>Social Media</h4>
-                </div>
-                <div class="format-option" onclick="buildGuide('Comic Strip', this)">
-                    <span>🎨</span> <h4>Comic Strip</h4>
-                </div>
-                <div class="format-option" onclick="buildGuide('Book Trailer', this)">
-                    <span>🎬</span> <h4>Book Trailer</h4>
-                </div>
-                <div class="format-option" onclick="buildGuide('Interview', this)">
-                    <span>🎙️</span> <h4>Interview</h4>
-                </div>
+                <div class="format-option" onclick="buildGuide('Social Media', this)"><span>📱</span> <h4>Social Media</h4></div>
+                <div class="format-option" onclick="buildGuide('Comic Strip', this)"><span>🎨</span> <h4>Comic Strip</h4></div>
+                <div class="format-option" onclick="buildGuide('Book Trailer', this)"><span>🎬</span> <h4>Book Trailer</h4></div>
+                <div class="format-option" onclick="buildGuide('Interview', this)"><span>🎙️</span> <h4>Interview</h4></div>
             </div>
-        </div>
-
-        <div id="formatDescription">
-            <p id="descTask"></p>
-            <p id="descContent"></p>
         </div>
 
         <div id="dynamicGuide">
-            <div class="step-title">3. Planning Questions (A2)</div>
+            <div class="step-title">3. Planning Questions</div>
             <div id="questionsContainer"></div>
         </div>
 
-        <button class="btn-primary" onclick="showReview()">See my Final Plan →</button>
+        <button class="btn-primary" onclick="showReview()">Review & Export →</button>
     </div>
 
     <div class="card" id="reviewSummary" style="display:none;">
-        <h3>🔍 My Project Plan</h3>
-        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;">
-            </div>
+        <h3>🔍 Project Plan Summary</h3>
+        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem; margin-bottom: 20px;"></div>
         
-        <button class="btn-primary" style="background:var(--success);" onclick="exportToWord()">Download Word (.doc) 📄</button>
+        <button class="btn-primary" style="background:var(--success);" onclick="exportToWord()">Download Word Document 📄</button>
         <button class="btn-primary" style="background:#64748b;" onclick="hideReview()">Go Back ✏️</button>
     </div>
 </div>
@@ -183,52 +162,25 @@
 <script>
     let currentSelection = "";
 
-    function toggleToolkit() {
-        document.getElementById('toolkitSidebar').classList.toggle('open');
-    }
+    function toggleToolkit() { document.getElementById('toolkitSidebar').classList.toggle('open'); }
 
-    const toolkits = {
-        'Social Media': `<div class="tool-section"><span class="tool-label">Social Media</span>
-            <div class="phrase-item">"Today, I..."</div><div class="phrase-item">"Something strange happened..."</div>
-            <div class="phrase-item">"Today, I went to the forest. I felt scared."</div></div>`,
-        'Comic Strip': `<div class="tool-section"><span class="tool-label">Comic Dialogues</span>
-            <div class="phrase-item">"Help me!" / "Run!"</div><div class="phrase-item">"What is that?" / "Let's go!"</div></div>`,
-        'Book Trailer': `<div class="tool-section"><span class="tool-label">Hook & Mystery</span>
-            <div class="phrase-item">"Something strange is happening..."</div>
-            <div class="phrase-item">"But everything changes when..."</div></div>`,
-        'Interview': `<div class="tool-section"><span class="tool-label">Roleplay Questions</span>
-            <div class="phrase-item">"Who are you?" / "How do you feel?"</div>
-            <div class="phrase-item">"Why did you...?"</div></div>`
-    };
-
+    // Guías A2
     const a2Guides = {
         'Social Media': [
             { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
-            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
-            { h: "Planning", q: ["What is your username?", "What is your bio? (2-3 sentences)", "What 3-4 events will you post?"] },
-            { h: "Creation", q: ["What picture will you use?", "What will you write in the caption? (2-3 sentences)", "What hashtags will you use? (#happy #scared)"] },
-            { h: "Reflection", q: ["Do your posts show the story?", "Do they show the character's feelings?"] }
+            { h: "Planning", q: ["What is your username?", "What 3-4 events will you post?"] }
         ],
         'Comic Strip': [
-            { h: "Understanding", q: ["What is the problem in the story?", "How does the story end?"] },
-            { h: "Analysis", q: ["Can the story end in a different way?", "What can change?"] },
-            { h: "Planning", q: ["What happens in picture 1?", "What happens in picture 2?", "What happens at the end?"] },
-            { h: "Creation", q: ["What do the characters say? (short sentences)", "How do they feel? (happy, scared, angry)"] },
-            { h: "Reflection", q: ["Is your ending clear?", "Is it different from the original story?"] }
+            { h: "Understanding", q: ["What is the problem?", "How does the story end?"] },
+            { h: "Planning", q: ["What happens in picture 1?", "What happens in the end?"] }
         ],
         'Book Trailer': [
-            { h: "Understanding", q: ["Who is the main character?", "Where is the story?", "What is the problem?"] },
-            { h: "Analysis", q: ["Is the story interesting? Why?", "Is it scary, funny, or sad?"] },
-            { h: "Planning", q: ["What will you show first?", "What will you say? (write 3-4 sentences)"] },
-            { h: "Creation", q: ["Can people understand your voice?", "Is your video short (1-2 min)?"] },
-            { h: "Reflection", q: ["Does your video make people want to read the book?", "Did you tell the ending? (No!)"] }
+            { h: "Understanding", q: ["Who is the main character?", "What is the problem?"] },
+            { h: "Planning", q: ["What will you show first?", "Write 3-4 sentences for the script"] }
         ],
         'Interview': [
-            { h: "Understanding", q: ["Who is the character?", "What happens to the character?"] },
-            { h: "Analysis", q: ["How does the character feel?", "What does the character think?"] },
-            { h: "Planning", q: ["What questions will you ask? (3-4 questions)", "What answers will you give? (short answers)"] },
-            { h: "Creation", q: ["Do you speak clearly?", "Do you use English all the time?"] },
-            { h: "Reflection", q: ["Is your interview easy to understand?", "Does the character sound real?"] }
+            { h: "Understanding", q: ["Who is the character?", "What happens to them?"] },
+            { h: "Planning", q: ["Write 3 questions you will ask", "Write the short answers"] }
         ]
     };
 
@@ -236,12 +188,9 @@
         currentSelection = format;
         document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
-
-        document.getElementById('projectSpecificToolkit').innerHTML = toolkits[format];
         
-        const guideDiv = document.getElementById('dynamicGuide');
         const container = document.getElementById('questionsContainer');
-        guideDiv.style.display = 'block';
+        document.getElementById('dynamicGuide').style.display = 'block';
         container.innerHTML = "";
 
         a2Guides[format].forEach((phase, pIdx) => {
@@ -253,46 +202,32 @@
             });
             container.appendChild(section);
         });
-        
-        if(!document.getElementById('toolkitSidebar').classList.contains('open')) {
-            toggleToolkit();
-        }
     }
 
     function showReview() {
-        const names = document.getElementById('names').value;
+        const n1 = document.getElementById('name1').value;
+        const n2 = document.getElementById('name2').value;
         const grade = document.getElementById('class').value;
 
-        if(!currentSelection || !names) {
-            alert("Names and Format are required!"); return;
-        }
+        if(!currentSelection || !n1) { alert("Please select a format and enter at least Student 1 Name"); return; }
 
         let summaryHtml = `
-            <div id="wordContent">
-                <h1 style="color: #002147; text-align: center;">Literacy Lab Project Plan</h1>
-                <p><strong>Students:</strong> ${names}</p>
-                <p><strong>Grade:</strong> ${grade}</p>
-                <p><strong>Format:</strong> ${currentSelection}</p>
-                <hr style="border: 1px solid #F39200;">
+            <h1 style="color: #002147; text-align: center;">Literacy Lab Project Plan</h1>
+            <p><strong>Students:</strong> ${n1}${n2 ? ' & ' + n2 : ''}</p>
+            <p><strong>Grade:</strong> ${grade}</p>
+            <p><strong>Project Type:</strong> ${currentSelection}</p>
+            <hr style="border: 1px solid #F39200;">
         `;
 
         document.querySelectorAll('.phase-section').forEach(section => {
-            const header = section.querySelector('.phase-header').innerText;
-            summaryHtml += `<h3 style="color: #F39200; margin-top: 20px;">${header}</h3>`;
-            
+            summaryHtml += `<h3 style="color: #002147; margin-top: 20px; border-bottom: 1px solid #F39200;">${section.querySelector('.phase-header').innerText}</h3>`;
             section.querySelectorAll('.q-item').forEach(item => {
-                const question = item.querySelector('label').innerText;
-                const answer = item.querySelector('textarea').value || "(No answer)";
-                summaryHtml += `
-                    <div class="summary-item">
-                        <span class="summary-q">Q: ${question}</span>
-                        <span class="summary-a">A: ${answer}</span>
-                    </div>
-                `;
+                const q = item.querySelector('label').innerText;
+                const a = item.querySelector('textarea').value || "No response";
+                summaryHtml += `<div class="summary-item"><strong>${q}</strong><br>${a}</div>`;
             });
         });
 
-        summaryHtml += `</div>`;
         document.getElementById('summaryContent').innerHTML = summaryHtml;
         document.getElementById('mainForm').style.display = 'none';
         document.getElementById('reviewSummary').style.display = 'block';
@@ -303,37 +238,17 @@
         document.getElementById('reviewSummary').style.display = 'none';
     }
 
-    // FUNCIÓN PARA EXPORTAR A WORD
     function exportToWord() {
         const content = document.getElementById('summaryContent').innerHTML;
-        
-        // Estilos específicos para Word
-        const style = `
-            <style>
-                body { font-family: 'Arial', sans-serif; }
-                h1 { color: #002147; text-align: center; }
-                h3 { color: #F39200; border-bottom: 1px solid #F39200; }
-                .summary-item { margin-bottom: 10px; }
-                .summary-q { font-weight: bold; display: block; }
-                .summary-a { display: block; margin-bottom: 10px; }
-            </style>
-        `;
-
-        const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-                "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-                "xmlns='http://www.w3.org/TR/REC-html40'>"+
-                "<head><meta charset='utf-8'>" + style + "</head><body>";
+        const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><style>body{font-family:Arial;} h1{color:#002147;} .summary-item{margin-bottom:10px;}</style></head><body>";
         const footer = "</body></html>";
-        
         const sourceHTML = header + content + footer;
         
         const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
         const fileDownload = document.createElement("a");
-        document.body.appendChild(fileDownload);
         fileDownload.href = source;
-        fileDownload.download = 'Project_Plan_' + document.getElementById('names').value.replace(/\s+/g, '_') + '.doc';
+        fileDownload.download = 'Project_Plan.doc';
         fileDownload.click();
-        document.body.removeChild(fileDownload);
     }
 </script>
 
